@@ -42,4 +42,6 @@ fi
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.symfony5/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
+
+export PATH="$PATH:$HOME/.config/my-bash-jazz/bin"
 ```
