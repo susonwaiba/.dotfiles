@@ -20,7 +20,7 @@ alias sw-copy="$HOME/.config/my-bash-jazz/bin/my-ssh work copy"
 
 alias a="tmux attach -d"
 alias n="$HOME/.config/my-bash-jazz/bin/my-tmux-session"
-alias N="$HOME/.config/myscript/bin/my-tmux-windowizer"
+alias N="$HOME/.config/my-script/bin/my-tmux-windowizer"
 
 alias t="$HOME/.config/my-bash-jazz/bin/my-tmux-session"
 alias tw="$HOME/.config/my-bash-jazz/bin/my-tmux-session work"
@@ -33,9 +33,6 @@ alias m-d-y-m4a="yt-dlp -x -f bestaudio[ext=m4a] --add-metadata"
 alias pass-work='PASSWORD_STORE_DIR=~/.password-store-work pass'
 
 alias capslock="xdotool key Caps_Lock"
-
-alias ubuntu-screen-list="xrandr -q | grep ' connected'"
-alias ubuntu-screen-brightness="xrandr --output eDP-1 --brightness"
 
 alias dc="docker-compose"
 alias dcup="docker-compose up -d"
