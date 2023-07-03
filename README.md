@@ -4,6 +4,13 @@ My dotfiles.
 
 ## nix
 
+Manual switch in flake.nix
+
+- linux
+- darwin
+
+#### nix home-manager
+
 - https://github.com/nix-community/home-manager
 
 ```bash
