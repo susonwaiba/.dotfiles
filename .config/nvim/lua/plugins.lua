@@ -108,14 +108,14 @@ return {
             })
             -- vim.cmd('colorscheme github_dark')
             -- vim.cmd('colorscheme github_dark_high_contrast')
-            vim.cmd('colorscheme github_light')
+            -- vim.cmd('colorscheme github_light')
             -- vim.cmd('colorscheme github_light_high_contrast')
         end,
     },
     {
         'blazkowolf/gruber-darker.nvim',
         config = function()
-            -- vim.cmd.colorscheme('gruber-darker')
+            vim.cmd.colorscheme('gruber-darker')
         end
     },
     {

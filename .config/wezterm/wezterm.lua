@@ -20,37 +20,37 @@ config.font = wezterm.font 'CaskaydiaCove NF' -- For MacOS
 config.font_size = 14.0
 config.default_cursor_style = "SteadyBlock"
 
-config.color_scheme = 'Github (base16)' -- light
+-- config.color_scheme = 'Github (base16)' -- light
 -- config.color_scheme = 'Github' -- light
 -- config.color_scheme = 'Github Dark' -- light
--- config.color_scheme = 'Gruber (base16)'
+config.color_scheme = 'Gruber (base16)'
 config.colors = {
-    -- cursor_bg = '#fadd38',
-    tab_bar = {
-        background = '#eee',
-        active_tab = {
-            bg_color = '#fff',
-            fg_color = '#666',
-        },
-        inactive_tab = {
-            bg_color = '#ddd',
-            fg_color = '#777',
-        },
-        inactive_tab_hover = {
-            bg_color = '#ccc',
-            fg_color = '#666',
-            italic = false,
-        },
-        new_tab = {
-            bg_color = '#bbb',
-            fg_color = '#777',
-        },
-        new_tab_hover = {
-            bg_color = '#999',
-            fg_color = '#666',
-            italic = false,
-        },
-    },
+    cursor_bg = '#fadd38',
+    -- tab_bar = {
+    --     background = '#eee',
+    --     active_tab = {
+    --         bg_color = '#fff',
+    --         fg_color = '#666',
+    --     },
+    --     inactive_tab = {
+    --         bg_color = '#ddd',
+    --         fg_color = '#777',
+    --     },
+    --     inactive_tab_hover = {
+    --         bg_color = '#ccc',
+    --         fg_color = '#666',
+    --         italic = false,
+    --     },
+    --     new_tab = {
+    --         bg_color = '#bbb',
+    --         fg_color = '#777',
+    --     },
+    --     new_tab_hover = {
+    --         bg_color = '#999',
+    --         fg_color = '#666',
+    --         italic = false,
+    --     },
+    -- },
 }
 
 config.hide_mouse_cursor_when_typing = false
