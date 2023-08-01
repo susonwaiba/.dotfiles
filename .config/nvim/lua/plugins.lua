@@ -201,7 +201,7 @@ return {
     {
         'nvim-neorg/neorg',
         build = ':Neorg sync-parsers',
-        dependencies = { { 'nvim-lua/plenary.nvim' }, { 'nvim-neorg/neorg-telescope' } },
+        dependencies = { { 'nvim-lua/plenary.nvim' } },
         config = function()
             require('neorg').setup {
                 load = {
@@ -225,8 +225,7 @@ return {
                                 keybinds.remap_event('norg', 'n', '<Leader>nl', 'core.looking-glass.magnify-code-block')
                             end,
                         }
-                    },
-                    ['core.integrations.telescope'] = {},
+                    }
                 }
             }
         end,
