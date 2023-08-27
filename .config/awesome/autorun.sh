@@ -7,8 +7,8 @@ setxkbmap -option caps:escape
 compton &
 sleep 1;
 # /home/suson/.config/awesome/onescreenLayout.sh # for one monitor
-/home/suson/.config/awesome/screenLayoutTwoMonitor.sws.sh # for two monitor on sws
-# /home/suson/.config/awesome/onescreenLayout.office.sh # for one monitor on office
+# /home/suson/.config/awesome/screenLayoutTwoMonitor.sws.sh # for two monitor on sws
+/home/suson/.config/awesome/onescreenLayout.office.sh # for one monitor on office
 # sleep 1;
 # nitrogen --restore
 sleep 1;

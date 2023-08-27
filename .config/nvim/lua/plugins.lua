@@ -1,5 +1,26 @@
 return {
     {
+        'nvim-treesitter/nvim-treesitter',
+        build = ":TSUpdate",
+        dependencies = {
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                init = function()
+                    -- disable rtp plugin, as we only need its queries for mini.ai
+                    -- In case other textobject modules are enabled, we will load them
+                    -- once nvim-treesitter is loaded
+                    require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
+                    load_textobjects = true
+                end,
+            },
+            {
+                'nvim-treesitter/playground',
+            }
+        },
+        cmd = { "TSUpdateSync" },
+    },
+
+    {
         'nvim-telescope/telescope.nvim',
         dependencies = { { 'nvim-lua/plenary.nvim' } }
     },
@@ -22,9 +43,6 @@ return {
     },
     'numToStr/FTerm.nvim',
 
-    'nvim-treesitter/nvim-treesitter',
-    'nvim-treesitter/playground',
-
     'mbbill/undotree',
     'tpope/vim-fugitive',
     {
@@ -45,6 +63,9 @@ return {
             { 'neovim/nvim-lspconfig' },
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
+            { 'jose-elias-alvarez/null-ls.nvim' },
+            { 'jayp0521/mason-null-ls.nvim' },
+
 
             -- Autocompletion
             { 'hrsh7th/nvim-cmp' },
@@ -59,10 +80,6 @@ return {
             { 'rafamadriz/friendly-snippets' },
         }
     },
-
-    'williamboman/mason.nvim',
-    'jose-elias-alvarez/null-ls.nvim',
-    'jayp0521/mason-null-ls.nvim',
 
     'folke/neodev.nvim',
     'ray-x/lsp_signature.nvim',
@@ -141,6 +158,8 @@ return {
 
     {
         'j-hui/fidget.nvim',
+        tag = "legacy",
+        event = "LspAttach",
         config = function()
             require('fidget').setup {
                 window = {
@@ -159,14 +178,6 @@ return {
                 -- refer to the configuration section below
             }
         end
-    },
-    {
-        'ellisonleao/glow.nvim',
-        config = function()
-            require('glow').setup {
-                -- config goes here
-            }
-        end,
     },
 
     {
@@ -200,6 +211,7 @@ return {
     },
     {
         'nvim-neorg/neorg',
+        ft = "norg",
         build = ':Neorg sync-parsers',
         dependencies = { { 'nvim-lua/plenary.nvim' } },
         config = function()

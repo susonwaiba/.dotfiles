@@ -22,9 +22,28 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- ]]
 
 -- fix for auto indent in php files
+-- vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+-- 	callback = function()
+-- 		vim.cmd "set autoindent"
+-- 		-- vim.cmd "set smartindent"
+-- 	end
+-- })
+
+-- indent on specific filetypes
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	callback = function()
-		vim.cmd "set autoindent"
-		-- vim.cmd "set smartindent"
-	end
+		vim.cmd [[setlocal tabstop=2 shiftwidth=2]]
+	end,
+	pattern = { "*.json", "*.js", "*.jsx", "*.ts", "*.tsx" },
 })
+
+-- indent on specific filetypes
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	callback = function()
+		vim.cmd [[setlocal tabstop=4 shiftwidth=4]]
+		-- fix for auto indent in php files
+		vim.cmd "set autoindent"
+	end,
+	pattern = { "*.php", "*.phtml", "*.html", "*.less", "*.css", "*.scss", "*.md" },
+})
+
