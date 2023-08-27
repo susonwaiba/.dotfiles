@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	callback = function()
 		vim.cmd [[setlocal tabstop=2 shiftwidth=2]]
 	end,
-	pattern = { "*.json", "*.js", "*.jsx", "*.ts", "*.tsx" },
+	pattern = { "*.json", "*.js", "*.jsx", "*.ts", "*.tsx", "*.yml", "*.yaml" },
 })
 
 -- indent on specific filetypes
