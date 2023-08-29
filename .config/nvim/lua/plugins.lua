@@ -96,7 +96,6 @@ return {
             }
         end
     },
-    'github/copilot.vim',
 
     {
         'rcarriga/nvim-dap-ui',

@@ -44,8 +44,3 @@ vim.keymap.set("n", "<leader>Tf", "<cmd>:TodoTelescope<CR>", { desc = "Todo find
 vim.keymap.set("n", "<Space>rb", ':! cd md_to_json && cargo run<CR>', { desc = "Run build" })
 vim.keymap.set("n", "<Space>rj", ':! just<CR>', { desc = "Run just" })
 
--- vim.g.copilot_no_tab_map = true
-vim.g.copilot_assume_mapped = true
--- vim.g.copilot_tab_fallback = ""
-vim.api.nvim_set_keymap("i", "<M-i>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-vim.keymap.set("i", "<M-p>", "<cmd>Copilot panel<cr>", { desc = "Open Copilot panel" })
