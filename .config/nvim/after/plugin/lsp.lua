@@ -119,7 +119,7 @@ null_ls.setup({
 	debug = true,
 	sources = {
 		null_ls.builtins.formatting.phpcsfixer.with({
-			filetypes = { "html", "php", "phtml" },
+			filetypes = { "html", "php", "phtml", ".html.twig" },
 		}),
 	}
 })
