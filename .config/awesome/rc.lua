@@ -61,8 +61,8 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 -- terminal = "xterm"
 -- terminal = "urxvt"
 -- terminal = "alacritty"
--- terminal = "kitty"
-terminal = "wezterm"
+terminal = "kitty"
+-- terminal = "wezterm"
 
 --editor = os.getenv("EDITOR") or "nano"
 editor = os.getenv("EDITOR") or "vim"
