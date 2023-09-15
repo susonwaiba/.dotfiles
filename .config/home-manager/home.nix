@@ -11,12 +11,11 @@ in {
 		# };
 		bash = {
 			enable = true;
-			enableCompletion = true;
 			bashrcExtra = ''
 				export VISUAL="nvim"
 				export EDITOR=$VISUAL
 
-				set -o vi
+				# set -o vi
 
 				PATH="$PATH:$HOME/.config/my-bash-jazz/bin";
 				PATH="$PATH:$HOME/.config/my-script/bin";
