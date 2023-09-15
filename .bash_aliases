@@ -11,7 +11,7 @@ alias la="ls -A"
 alias l="ls -CF"
 
 alias vi="nvim"
-alias e="nvim"
+alias vim="nvim"
 
 alias s="$HOME/.config/my-bash-jazz/bin/my-ssh"
 alias sw="$HOME/.config/my-bash-jazz/bin/my-ssh work"
