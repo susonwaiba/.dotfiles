@@ -1,4 +1,12 @@
 require('telescope').setup({
+    defaults = {
+        mappings = {
+            i = {
+                ['<C-u>'] = false,
+                ['<C-d>'] = false,
+            },
+        },
+    },
     extensions = {
         fzy_native = {
             override_generic_sorter = false,

@@ -1,5 +1,46 @@
 return {
     {
+        'blazkowolf/gruber-darker.nvim',
+        priority = 1001,
+        config = function()
+            vim.cmd.colorscheme('gruber-darker')
+        end
+    },
+    {
+        'xiyaowong/transparent.nvim',
+        priority = 1000,
+        config = function()
+            require('transparent').setup({
+                groups = { -- table: default groups
+                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+                    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+                    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+                    'SignColumn', 'CursorLineNr', 'EndOfBuffer',
+                },
+                extra_groups = {
+                    "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
+                    "NvimTreeNormal" -- NvimTree
+                },                   -- table: additional groups that should be cleared
+                exclude_groups = {}, -- table: groups you don't want to clear
+            })
+        end
+    },
+
+    'tpope/vim-fugitive',
+    'tpope/vim-rhubarb',
+
+    -- Detect tabstop and shiftwidth automatically
+    'tpope/vim-sleuth',
+
+    {
+        'ojroques/nvim-osc52',
+        config = function()
+            require('osc52').setup()
+        end
+    },
+    'mbbill/undotree',
+
+    {
         'nvim-treesitter/nvim-treesitter',
         build = ":TSUpdate",
         dependencies = {
@@ -36,55 +77,82 @@ return {
     'theprimeagen/harpoon',
 
     {
-        'ojroques/nvim-osc52',
-        config = function()
-            require('osc52').setup()
-        end
-    },
-    'numToStr/FTerm.nvim',
-
-    'mbbill/undotree',
-    'tpope/vim-fugitive',
-    {
+        -- Adds git related signs to the gutter, as well as utilities for managing changes
         'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup()
-        end
+        opts = {
+            -- See `:help gitsigns.txt`
+            signs = {
+                add = { text = '+' },
+                change = { text = '~' },
+                delete = { text = '_' },
+                topdelete = { text = '‾' },
+                changedelete = { text = '~' },
+            },
+            on_attach = function(bufnr)
+                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk,
+                    { buffer = bufnr, desc = 'Preview git hunk' })
+
+                -- don't override the built-in and fugitive keymaps
+                local gs = package.loaded.gitsigns
+                vim.keymap.set({ 'n', 'v' }, ']c', function()
+                    if vim.wo.diff then return ']c' end
+                    vim.schedule(function() gs.next_hunk() end)
+                    return '<Ignore>'
+                end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+                vim.keymap.set({ 'n', 'v' }, '[c', function()
+                    if vim.wo.diff then return '[c' end
+                    vim.schedule(function() gs.prev_hunk() end)
+                    return '<Ignore>'
+                end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
+            end,
+        },
     },
     {
         'sindrets/diffview.nvim',
+        lazy = true,
         dependencies = { { 'nvim-lua/plenary.nvim' } }
     },
 
     {
-        'VonHeikemen/lsp-zero.nvim',
+        -- LSP Configuration & Plugins
+        'neovim/nvim-lspconfig',
         dependencies = {
-            -- LSP Support
-            { 'neovim/nvim-lspconfig' },
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'jose-elias-alvarez/null-ls.nvim' },
-            { 'jayp0521/mason-null-ls.nvim' },
+            -- Automatically install LSPs to stdpath for neovim
+            { 'williamboman/mason.nvim', config = true },
+            'williamboman/mason-lspconfig.nvim',
 
+            -- Useful status updates for LSP
+            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+            { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
-            -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },
-            { 'hrsh7th/cmp-buffer' },
-            { 'hrsh7th/cmp-path' },
-            { 'saadparwaiz1/cmp_luasnip' },
-            { 'hrsh7th/cmp-nvim-lsp' },
-            { 'hrsh7th/cmp-nvim-lua' },
+            -- Additional lua configuration, makes nvim stuff amazing!
+            'folke/neodev.nvim',
+        },
+    },
+    {
+        -- Autocompletion
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            -- Snippet Engine & its associated nvim-cmp source
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
 
-            -- Snippets
-            { 'L3MON4D3/LuaSnip' },
-            { 'rafamadriz/friendly-snippets' },
-        }
+            -- Adds LSP completion capabilities
+            'hrsh7th/cmp-nvim-lsp',
+
+            -- Adds a number of user-friendly snippets
+            'rafamadriz/friendly-snippets',
+        },
+    },
+    {
+        -- Formatter
+        'stevearc/conform.nvim',
     },
 
-    'folke/neodev.nvim',
     'ray-x/lsp_signature.nvim',
     {
         'folke/trouble.nvim',
+        lazy = true,
         dependencies = 'kyazdani42/nvim-web-devicons',
         config = function()
             require('trouble').setup {
@@ -98,90 +166,50 @@ return {
     },
 
     {
+        'tpope/vim-dadbod',
+        lazy = true,
+    },
+    {
+        'kristijanhusak/vim-dadbod-ui',
+        lazy = true,
+    },
+
+    {
         'rcarriga/nvim-dap-ui',
+        lazy = true,
         dependencies = { { 'mfussenegger/nvim-dap' } }
     },
 
     {
         'numToStr/Comment.nvim',
         config = function()
-            require('Comment').setup()
-        end
-    },
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    {
-        'windwp/nvim-autopairs',
-        config = function() require('nvim-autopairs').setup {} end
-    },
-    'tpope/vim-sleuth',
-    {
-        'Exafunction/codeium.vim',
-        event = 'BufEnter',
-        config = function ()
-            vim.g.codeium_disable_bindings = 1
-            -- Change '<C-g>' here to any keycode you like.
-            vim.keymap.set('i', '<M-y>', function () return vim.fn['codeium#Accept']() end, { expr = true })
-            vim.keymap.set('i', '<M-[>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-            vim.keymap.set('i', '<M-]>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-            vim.keymap.set('i', '<M-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
-        end
-    },
-
-    {
-        'projekt0n/github-nvim-theme',
-        config = function()
-            require('github-theme').setup({
-                options = {
-                    transparent = true,
-                }
-            })
-            -- vim.cmd('colorscheme github_dark')
-            -- vim.cmd('colorscheme github_dark_high_contrast')
-            -- vim.cmd('colorscheme github_light')
-            -- vim.cmd('colorscheme github_light_high_contrast')
-        end,
-    },
-    {
-        'blazkowolf/gruber-darker.nvim',
-        config = function()
-            vim.cmd.colorscheme('gruber-darker')
-        end
-    },
-    {
-        'xiyaowong/transparent.nvim',
-        config = function()
-            require('transparent').setup({
-                groups = { -- table: default groups
-                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-                    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-                    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-                    'SignColumn', 'CursorLineNr', 'EndOfBuffer',
-                },
-                extra_groups = {
-                    "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
-                    "NvimTreeNormal" -- NvimTree
-                },                   -- table: additional groups that should be cleared
-                exclude_groups = {}, -- table: groups you don't want to clear
-            })
-        end
-    },
-
-    { 'nvim-lualine/lualine.nvim', dependencies = { 'kyazdani42/nvim-web-devicons', opt = true } },
-
-    {
-        'j-hui/fidget.nvim',
-        tag = "legacy",
-        event = "LspAttach",
-        config = function()
-            require('fidget').setup {
-                window = {
-                    blend = 0,
-                },
+            require('Comment').setup {
+                pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
             }
         end
     },
     {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        lazy = true,
+    },
+    {
+        'windwp/nvim-autopairs',
+        lazy = true,
+        dependencies = { 'hrsh7th/nvim-cmp' },
+        config = function()
+            require('nvim-autopairs').setup {}
+            -- If you want to automatically add `(` after selecting a function or method
+            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+            local cmp = require('cmp')
+            cmp.event:on(
+                'confirm_done',
+                cmp_autopairs.on_confirm_done()
+            )
+        end
+    },
+    {
         'folke/todo-comments.nvim',
+        lazy = true,
         dependencies = 'nvim-lua/plenary.nvim',
         config = function()
             require('todo-comments').setup {
@@ -193,23 +221,63 @@ return {
     },
 
     {
+        'Exafunction/codeium.vim',
+        lazy = true,
+        event = 'BufEnter',
+        config = function()
+            vim.g.codeium_disable_bindings = 1
+            -- Change '<C-g>' here to any keycode you like.
+            vim.keymap.set('i', '<M-y>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+            vim.keymap.set('i', '<M-[>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+            vim.keymap.set('i', '<M-]>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+            vim.keymap.set('i', '<M-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+        end
+    },
+
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = {
+            'kyazdani42/nvim-web-devicons',
+            opt = true,
+        },
+        opts = {
+            options = {
+                icons_enabled = false,
+                theme = 'auto',
+                component_separators = '|',
+                section_separators = '',
+            },
+            sections = {
+                lualine_a = {
+                    {
+                        'mode',
+                        fmt = function()
+                            return "◯"
+                        end,
+                    },
+                },
+                lualine_c = {
+                    {
+                        'filename',
+                        file_status = true,
+                        path = 1,
+                    },
+                },
+            },
+        },
+    },
+
+    {
         'rest-nvim/rest.nvim',
+        lazy = true,
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
 
-    'tpope/vim-dadbod',
-    'kristijanhusak/vim-dadbod-ui',
-
     {
-        'tamago324/lir.nvim',
-        dependencies = {
-            'kyazdani42/nvim-web-devicons',
-            'tamago324/lir-mmv.nvim',
-            'tamago324/lir-git-status.nvim',
-            'tamago324/lir-bookmark.nvim',
-            'nvim-lua/plenary.nvim',
-        }
+        'nvim-tree/nvim-tree.lua',
+        dependencies = 'kyazdani42/nvim-web-devicons',
     },
+
     {
         'folke/which-key.nvim',
         lazy = true,
@@ -220,6 +288,10 @@ return {
                 -- refer to the configuration section below
             }
         end
+    },
+    {
+        'numToStr/FTerm.nvim',
+        lazy = true,
     },
     {
         'nvim-neorg/neorg',

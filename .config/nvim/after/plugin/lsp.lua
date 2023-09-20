@@ -1,128 +1,161 @@
-vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
+-- LSP
+vim.keymap.set("n", "<leader>lF", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format" })
+vim.keymap.set("n", "<leader>lf", function()
+    require("conform").format({ async = true, lsp_fallback = true })
+end, { desc = "Format with comform" })
 
+
+local on_attach = function(client, bufnr)
+    if client.name == "phpactor" then
+        client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+    end
+    local nmap = function(keys, func, desc)
+        if desc then
+            desc = "LSP: " .. desc
+        end
+
+        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+    end
+
+    nmap("<leader>lr", vim.lsp.buf.rename, "Rename")
+    nmap("<leader>la", vim.lsp.buf.code_action, "Code Action")
+
+    nmap("gd", vim.lsp.buf.definition, "Goto Definitions")
+    nmap("gr", require("telescope.builtin").lsp_references, "Goto References")
+    nmap("gI", require("telescope.builtin").lsp_implementations, "Goto Implementation")
+    nmap("<leader>ld", vim.lsp.buf.type_definition, "Type Definition")
+    nmap("<leader>lsd", require("telescope.builtin").lsp_document_symbols, "Symbols of Document")
+    nmap("<leader>lsw", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Symbols of Workspace")
+
+    -- See `:help K` for why this keymap
+    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+    nmap("<leader>lh", vim.lsp.buf.signature_help, "Signature Documentation")
+
+    -- Lesser used LSP functionality
+    nmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
+    nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "Workspace Add Folder")
+    nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "Workspace Remove Folder")
+    nmap(
+        "<leader>wl",
+        function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end,
+        "Workspace List Folders"
+    )
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(
+        bufnr,
+        "Format",
+        function(_)
+            vim.lsp.buf.format()
+        end,
+        { desc = "Format current buffer with LSP" }
+    )
+end
+
+-- Enable the following language servers
+--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
+--
+--  Add any additional override configuration in the following tables. They will be passed to
+--  the `settings` field of the server config. You must look up that documentation yourself.
+--
+--  If you want to override the default filetypes that your language server will attach to you can
+--  define the property 'filetypes' to the map in question.
+local servers = {
+    -- clangd = {},
+    -- gopls = {},
+    -- pyright = {},
+    -- rust_analyzer = {},
+
+    tsserver = { filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact' } },
+
+    html = { filetypes = { 'html', 'twig', 'js', 'jsx', 'ts', 'tsx' } },
+    tailwindcss = { filetypes = { 'html', 'twig', 'js', 'jsx', 'ts', 'tsx' } },
+
+    phpactor = { filetypes = { 'php', 'twig' } },
+
+    lua_ls = {
+        Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false }
+        }
+    }
+}
+
+-- Setup neovim lua configuration
 require("neodev").setup({
-	library = { plugins = { "nvim-dap-ui" }, types = true },
+    library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
-require('mason.settings').set({
-	ui = {
-		border = 'rounded'
-	}
-})
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-local lsp = require('lsp-zero')
+-- Ensure the servers above are installed
+local mason_lspconfig = require "mason-lspconfig"
 
-lsp.preset('recommended')
+mason_lspconfig.setup {
+    ensure_installed = vim.tbl_keys(servers),
+    library = {
+        plugins = { "nvim-dap-ui" },
+        types = true,
+    },
+}
 
-lsp.ensure_installed({})
+mason_lspconfig.setup_handlers {
+    function(server_name)
+        require("lspconfig")[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = servers[server_name],
+            filetypes = (servers[server_name] or {}).filetypes
+        }
+    end
+}
 
-lsp.nvim_workspace()
+require "lsp_signature".setup({})
 
-local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-Space'] = cmp.mapping.complete(),
-	['<C-e>'] = cmp.mapping.abort(),
-	['<CR>'] = cmp.mapping.confirm({ select = true }),
-})
-
-lsp.setup_nvim_cmp({
-	mapping = cmp_mappings,
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "path" },
-		{ name = "luasnip" },
-		{ name = "friendly-snippets" },
-	}, {
-		{ name = "buffer" },
-	})
-})
-
-lsp.set_preferences({
-	suggest_lsp_servers = true,
-	setup_servers_on_start = true,
-	set_lsp_keymaps = false,
-	configure_diagnostics = true,
-	cmp_capabilities = true,
-	manage_nvim_cmp = true,
-	call_servers = 'local',
-	sign_icons = {
-		error = '✘',
-		warn = '▲',
-		hint = '⚑',
-		info = ''
-	}
-})
-
-lsp.on_attach(function(client, bufnr)
-	if client.name == "phpcsfixer" then
-		client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
-	end
-	local nmap = function(keys, func, desc)
-		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-	end
-
-	nmap("gd", function() vim.lsp.buf.definition() end, "Goto Definitions")
-	nmap("gD", function() vim.lsp.buf.declaration() end, "Goto Declaration")
-	nmap("gI", function() vim.lsp.buf.implementation() end, "Goto Implementation")
-	nmap("gr", require('telescope.builtin').lsp_references, "Goto References")
-
-	nmap("<leader>ld", function() vim.lsp.buf.type_definition() end, "Type definition")
-	nmap("<leader>lsd", require('telescope.builtin').lsp_document_symbols, "Symbols of Document")
-	nmap("<leader>lsw", require('telescope.builtin').lsp_dynamic_workspace_symbols, "Symbols of Workspace")
-
-	nmap("<leader>lr", function() vim.lsp.buf.rename() end, "Rename")
-	nmap("<leader>la", function() vim.lsp.buf.code_action() end, "Code Action")
-
-	nmap("<leader>lf", function() vim.lsp.buf.format({ async = true }) end, "Format")
-
-	nmap("K", function() vim.lsp.buf.hover() end, "Hover")
-	nmap("<leader>lh", function() vim.lsp.buf.signature_help() end, "Signature Help")
-
-	nmap("<leader>lws", function() vim.lsp.buf.workspace_symbol() end, "Workspace Symbol")
-	nmap("<leader>lr", function() vim.lsp.buf.references() end, "References")
-
-	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
-	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
-	nmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "List Workspace Folder")
-
-	-- Diagnostic keymaps
-	-- nmap('<leader>dp', vim.diagnostic.goto_prev, "Prev")
-	-- nmap('<leader>dn', vim.diagnostic.goto_next, "Next")
-	-- nmap('<leader>df', vim.diagnostic.open_float, "Float")
-	-- nmap('<leader>dl', vim.diagnostic.setloclist, "Set Loclist")
-end)
-
-lsp.setup()
+-- Diagnostic
 
 vim.diagnostic.config({
-	virtual_text = true,
-	signs = true,
-	update_in_insert = false,
-	underline = true,
-	severity_sort = false,
-	float = true,
+    virtual_text = true,
+    signs = true,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = false,
+    float = true,
 })
 
-local mason_nullls = require("mason-null-ls")
+vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
 
-mason_nullls.setup({
-	debug = true,
-	automatic_installation = true,
-	automatic_setup = true,
-})
+-- Diagnostic keymaps
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
-local null_ls = require("null-ls");
-null_ls.setup({
-	debug = true,
-	sources = {
-		null_ls.builtins.formatting.phpcsfixer.with({
-			filetypes = { "html", "php", "phtml", "html.twig", 'twig' },
-		}),
-	}
-})
+-- DAP
+local dap = require('dap')
+
+dap.adapters.php = {
+    type = 'executable',
+    command = 'node',
+    args = { os.getenv("HOME") .. "/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js" }
+    -- args = { '/path/to/vscode-php-debug/out/phpDebug.js' }
+}
+
+dap.configurations.php = {
+    {
+        type = 'php',
+        request = 'launch',
+        name = 'Listen for Xdebug',
+        hostname = 'fpm',
+        port = 9000
+    }
+}
+
+require("dapui").setup()
 
 vim.keymap.set("n", "<leader>dc", ":lua require'dap'.continue()<CR>", { desc = "Continue" })
 vim.keymap.set("n", "<leader>dso", ":lua require'dap'.step_over()<CR>", { desc = "Step over" })
@@ -134,44 +167,9 @@ vim.keymap.set("n", "<leader>dp", ":lua require'dap'.set_breakpoint(nil, nil, vi
 vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
 vim.keymap.set("n", "<leader>do", ":lua require'dapui'.toggle()<CR>", { desc = "DapUI" })
 
-local dap = require('dap')
-
-dap.adapters.php = {
-	type = 'executable',
-	command = 'node',
-	args = { os.getenv("HOME") .. "/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js" }
-	-- args = { '/path/to/vscode-php-debug/out/phpDebug.js' }
-}
-
-dap.configurations.php = {
-	{
-		type = 'php',
-		request = 'launch',
-		name = 'Listen for Xdebug',
-		hostname = 'fpm',
-		port = 9000
-	}
-}
-
-require("dapui").setup()
-
-require "lsp_signature".setup({})
-
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-	{ silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-	{ silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-	{ silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-	{ silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-	{ silent = true, noremap = true }
-)
-vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-	{ silent = true, noremap = true }
-)
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
