@@ -1,36 +1,27 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- set termguicolors to enable highlight groups
-vim.opt.termguicolors = true
-
-local function my_on_attach(bufnr)
-    local api = require "nvim-tree.api"
-
-    local function opts(desc)
-        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-    end
-
-    -- default mappings
-    api.config.mappings.default_on_attach(bufnr)
-
-    -- custom mappings
-    vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
-    vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
-end
-
-require("nvim-tree").setup({
-    sort_by = "case_sensitive",
-    view = {
-        width = 30,
+require("oil").setup {
+    keymaps = {
+        ["g?"] = "actions.show_help",
+        ["l"] = "actions.select",
+        ["<CR>"] = "actions.select",
+        ["<C-s>"] = "actions.select_vsplit",
+        ["<C-h>"] = "actions.select_split",
+        ["<C-t>"] = "actions.select_tab",
+        ["<C-p>"] = "actions.preview",
+        ["<C-c>"] = "actions.close",
+        ["<leader>e"] = "actions.close",
+        ["<C-l>"] = "actions.refresh",
+        ["h"] = "actions.parent",
+        ["-"] = "actions.parent",
+        ["_"] = "actions.open_cwd",
+        ["`"] = "actions.cd",
+        ["~"] = "actions.tcd",
+        ["gs"] = "actions.change_sort",
+        ["g."] = "actions.toggle_hidden",
     },
-    renderer = {
-        group_empty = true,
-    },
-    filters = {
-        dotfiles = true,
-    },
-    on_attach = my_on_attach,
-})
+    view_options = {
+        show_hidden = true,
+    }
+}
 
-vim.keymap.set("n", "<leader>e", "<cmd>:NvimTreeFindFile<cr>", { desc = "Explore" })
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Explore" })

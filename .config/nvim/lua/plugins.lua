@@ -274,7 +274,8 @@ return {
     },
 
     {
-        'nvim-tree/nvim-tree.lua',
+        'stevearc/oil.nvim',
+        opts = {},
         dependencies = 'kyazdani42/nvim-web-devicons',
     },
 
