@@ -1,7 +1,6 @@
 require("oil").setup {
     keymaps = {
         ["g?"] = "actions.show_help",
-        ["l"] = "actions.select",
         ["<CR>"] = "actions.select",
         ["<C-s>"] = "actions.select_vsplit",
         ["<C-h>"] = "actions.select_split",
@@ -10,7 +9,6 @@ require("oil").setup {
         ["<C-c>"] = "actions.close",
         ["<leader>e"] = "actions.close",
         ["<C-l>"] = "actions.refresh",
-        ["h"] = "actions.parent",
         ["-"] = "actions.parent",
         ["_"] = "actions.open_cwd",
         ["`"] = "actions.cd",
