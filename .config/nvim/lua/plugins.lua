@@ -1,31 +1,4 @@
 return {
-    {
-        'blazkowolf/gruber-darker.nvim',
-        priority = 1001,
-        config = function()
-            vim.cmd.colorscheme('gruber-darker')
-        end
-    },
-    {
-        'xiyaowong/transparent.nvim',
-        priority = 1000,
-        config = function()
-            require('transparent').setup({
-                groups = { -- table: default groups
-                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-                    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-                    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-                    'SignColumn', 'CursorLineNr', 'EndOfBuffer',
-                },
-                extra_groups = {
-                    "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
-                    "NvimTreeNormal" -- NvimTree
-                },                   -- table: additional groups that should be cleared
-                exclude_groups = {}, -- table: groups you don't want to clear
-            })
-        end
-    },
-
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
 
@@ -194,7 +167,7 @@ return {
     },
     {
         'windwp/nvim-autopairs',
-        lazy = true,
+        event = "InsertEnter",
         dependencies = { 'hrsh7th/nvim-cmp' },
         config = function()
             require('nvim-autopairs').setup {}
@@ -233,6 +206,67 @@ return {
             vim.keymap.set('i', '<M-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
         end
     },
+
+    {
+        "ellisonleao/gruvbox.nvim",
+        name = "catppuccin",
+        priority = 1000,
+        config = function()
+            require("gruvbox").setup({
+                terminal_colors = true, -- add neovim terminal colors
+                undercurl = true,
+                underline = true,
+                bold = true,
+                italic = {
+                    strings = true,
+                    emphasis = true,
+                    comments = true,
+                    operators = false,
+                    folds = true,
+                },
+                strikethrough = true,
+                invert_selection = false,
+                invert_signs = false,
+                invert_tabline = false,
+                invert_intend_guides = false,
+                inverse = true, -- invert background for search, diffs, statuslines and errors
+                contrast = "hard", -- can be "hard", "soft" or empty string
+                palette_overrides = {},
+                overrides = {},
+                dim_inactive = false,
+                transparent_mode = true,
+            })
+            vim.o.background = "dark" -- "dark" or "light"
+            vim.cmd.colorscheme('gruvbox')
+        end
+    },
+    {
+        'blazkowolf/gruber-darker.nvim',
+        priority = 1001,
+        config = function()
+            -- vim.cmd.colorscheme('gruber-darker')
+        end
+    },
+    {
+        'xiyaowong/transparent.nvim',
+        priority = 1000,
+        config = function()
+            require('transparent').setup({
+                groups = { -- table: default groups
+                    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+                    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+                    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+                    'SignColumn', 'CursorLineNr', 'EndOfBuffer',
+                },
+                extra_groups = {
+                    "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
+                    "NvimTreeNormal" -- NvimTree
+                },                   -- table: additional groups that should be cleared
+                exclude_groups = {}, -- table: groups you don't want to clear
+            })
+        end
+    },
+
 
     {
         'nvim-lualine/lualine.nvim',
