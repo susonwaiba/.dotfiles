@@ -42,3 +42,4 @@ alias dcstart="docker-compose start"
 alias dcrestart="docker-compose restart"
 alias dcli="docker-compose exec cli bash"
 
+alias php-xdebug="XDEBUG_MODE=debug XDEBUG_SESSION=1"

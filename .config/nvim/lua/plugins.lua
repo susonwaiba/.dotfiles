@@ -82,7 +82,6 @@ return {
     },
     {
         'sindrets/diffview.nvim',
-        lazy = true,
         dependencies = { { 'nvim-lua/plenary.nvim' } }
     },
 
@@ -139,18 +138,8 @@ return {
     },
 
     {
-        'tpope/vim-dadbod',
-        lazy = true,
-    },
-    {
-        'kristijanhusak/vim-dadbod-ui',
-        lazy = true,
-    },
-
-    {
         'rcarriga/nvim-dap-ui',
-        lazy = true,
-        dependencies = { { 'mfussenegger/nvim-dap' } }
+        dependencies = 'mfussenegger/nvim-dap',
     },
 
     {
@@ -163,7 +152,6 @@ return {
     },
     {
         'JoosepAlviste/nvim-ts-context-commentstring',
-        lazy = true,
     },
     {
         'windwp/nvim-autopairs',
@@ -208,43 +196,10 @@ return {
     },
 
     {
-        "ellisonleao/gruvbox.nvim",
-        name = "catppuccin",
+        'blazkowolf/gruber-darker.nvim',
         priority = 1000,
         config = function()
-            require("gruvbox").setup({
-                terminal_colors = true, -- add neovim terminal colors
-                undercurl = true,
-                underline = true,
-                bold = true,
-                italic = {
-                    strings = true,
-                    emphasis = true,
-                    comments = true,
-                    operators = false,
-                    folds = true,
-                },
-                strikethrough = true,
-                invert_selection = false,
-                invert_signs = false,
-                invert_tabline = false,
-                invert_intend_guides = false,
-                inverse = true, -- invert background for search, diffs, statuslines and errors
-                contrast = "hard", -- can be "hard", "soft" or empty string
-                palette_overrides = {},
-                overrides = {},
-                dim_inactive = false,
-                transparent_mode = true,
-            })
-            vim.o.background = "dark" -- "dark" or "light"
-            vim.cmd.colorscheme('gruvbox')
-        end
-    },
-    {
-        'blazkowolf/gruber-darker.nvim',
-        priority = 1001,
-        config = function()
-            -- vim.cmd.colorscheme('gruber-darker')
+            vim.cmd.colorscheme('gruber-darker')
         end
     },
     {
@@ -301,6 +256,12 @@ return {
         },
     },
 
+    {
+        'tpope/vim-dadbod',
+    },
+    {
+        'kristijanhusak/vim-dadbod-ui',
+    },
     {
         'rest-nvim/rest.nvim',
         lazy = true,

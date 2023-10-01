@@ -83,11 +83,6 @@ local servers = {
     }
 }
 
--- Setup neovim lua configuration
-require("neodev").setup({
-    library = { plugins = { "nvim-dap-ui" }, types = true },
-})
-
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
@@ -136,7 +131,17 @@ vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- DAP
-local dap = require('dap')
+local dap, dapui = require("dap"), require("dapui")
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
 
 dap.adapters.php = {
     type = 'executable',
@@ -150,12 +155,12 @@ dap.configurations.php = {
         type = 'php',
         request = 'launch',
         name = 'Listen for Xdebug',
-        hostname = 'fpm',
-        port = 9000
+        hostname = '127.0.0.1',
+        port = 9003
     }
 }
 
-require("dapui").setup()
+dapui.setup()
 
 vim.keymap.set("n", "<leader>dc", ":lua require'dap'.continue()<CR>", { desc = "Continue" })
 vim.keymap.set("n", "<leader>dso", ":lua require'dap'.step_over()<CR>", { desc = "Step over" })
@@ -173,3 +178,8 @@ vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
 vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
+
+-- Setup neovim lua configuration
+require("neodev").setup({
+    library = { plugins = { "nvim-dap-ui" }, types = true },
+})
