@@ -61,8 +61,8 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 -- terminal = "xterm"
 -- terminal = "urxvt"
 -- terminal = "alacritty"
-terminal = "kitty"
--- terminal = "wezterm"
+-- terminal = "kitty"
+terminal = "wezterm"
 
 --editor = os.getenv("EDITOR") or "nano"
 editor = os.getenv("EDITOR") or "vim"
@@ -344,8 +344,16 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Crontrol", "Shift" }, "Print",
         function() awful.util.spawn("flameshot full --clipboard --pin --path /home/suson/Pictures/Screenshots/") end,
         { description = "open screenshot" }),
-    awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("google-chrome-stable") end,
+
+    -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("google-chrome-stable") end,
+    --     { description = "open browser" }),
+
+    -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox") end,
+    --     { description = "open browser" }),
+
+    awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox-developer-edition") end,
         { description = "open browser" }),
+
 
     -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("brave") end,
     --     { description = "open browser" }),
