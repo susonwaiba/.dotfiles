@@ -36,9 +36,9 @@ vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<leader>s", "<cmd>:w<CR>", { desc = "Save buffer" })
 vim.keymap.set("n", "<leader>c", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", { desc = "Close buffer" })
 
-vim.keymap.set("n", "<leader>Tl", "<cmd>:TodoQuickFix<CR>", { desc = "Todo quick fix" })
-vim.keymap.set("n", "<leader>Tt", "<cmd>:TodoTrouble<CR>", { desc = "Todo trouble" })
-vim.keymap.set("n", "<leader>Tf", "<cmd>:TodoTelescope<CR>", { desc = "Todo find" })
+vim.keymap.set("n", "<leader>tl", "<cmd>:TodoQuickFix<CR>", { desc = "Todo quick fix" })
+vim.keymap.set("n", "<leader>tt", "<cmd>:TodoTrouble<CR>", { desc = "Todo trouble" })
+vim.keymap.set("n", "<leader>tf", "<cmd>:TodoTelescope<CR>", { desc = "Todo find" })
 
 -- run
 vim.keymap.set("n", "<Space>rb", ':! cd md_to_json && cargo run<CR>', { desc = "Run build" })

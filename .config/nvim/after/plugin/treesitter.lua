@@ -39,28 +39,4 @@ require 'nvim-treesitter.configs'.setup {
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
-
-    -- JSX comment fix inside .jsx and .tsx using JoosepAlviste/nvim-ts-context-commentstring
-    context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
-        config = {
-            javascript = {
-                __default = '// %s',
-                __multiline = '/* %s */',
-                jsx_element = '{/* %s */}',
-                jsx_fragment = '{/* %s */}',
-                jsx_attribute = '// %s',
-                comment = '// %s'
-            },
-            typescript = {
-                __default = '// %s',
-                __multiline = '/* %s */',
-                jsx_element = '{/* %s */}',
-                jsx_fragment = '{/* %s */}',
-                jsx_attribute = '// %s',
-                comment = '// %s'
-            }
-        }
-    }
 }

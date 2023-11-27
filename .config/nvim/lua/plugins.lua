@@ -124,7 +124,6 @@ return {
     'ray-x/lsp_signature.nvim',
     {
         'folke/trouble.nvim',
-        lazy = true,
         dependencies = 'kyazdani42/nvim-web-devicons',
         config = function()
             require('trouble').setup {
@@ -143,15 +142,16 @@ return {
     },
 
     {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+    },
+    {
         'numToStr/Comment.nvim',
+        lazy = false,
         config = function()
             require('Comment').setup {
                 pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
             }
-        end
-    },
-    {
-        'JoosepAlviste/nvim-ts-context-commentstring',
+        end,
     },
     {
         'windwp/nvim-autopairs',
@@ -170,20 +170,16 @@ return {
     },
     {
         'folke/todo-comments.nvim',
-        lazy = true,
         dependencies = 'nvim-lua/plenary.nvim',
-        config = function()
-            require('todo-comments').setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-        end
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        },
     },
 
     {
         'Exafunction/codeium.vim',
-        lazy = true,
         event = 'BufEnter',
         config = function()
             vim.g.codeium_disable_bindings = 1
@@ -264,7 +260,6 @@ return {
     },
     {
         'rest-nvim/rest.nvim',
-        lazy = true,
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
 
@@ -276,7 +271,6 @@ return {
 
     {
         'folke/which-key.nvim',
-        lazy = true,
         config = function()
             require('which-key').setup {
                 -- your configuration comes here
@@ -287,7 +281,6 @@ return {
     },
     {
         'numToStr/FTerm.nvim',
-        lazy = true,
     },
     {
         'nvim-neorg/neorg',

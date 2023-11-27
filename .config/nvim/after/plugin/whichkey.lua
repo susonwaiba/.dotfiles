@@ -3,7 +3,7 @@ local wk = require("which-key")
 wk.register({
 	f = { name = "+Find" },
 
-	T = { name = "+Todo" },
+	t = { name = "+Todo" },
 	x = { name = "+Trouble" },
 
 	n = { name = "+Notes" },
