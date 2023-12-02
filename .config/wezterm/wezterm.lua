@@ -67,8 +67,8 @@ config.hide_tab_bar_if_only_one_tab = true
 --     hue = 0.4,
 --     saturation = 0.2,
 -- }
--- config.window_background_opacity = 0.80
--- config.text_background_opacity = 0.80
+config.window_background_opacity = 0.95
+-- config.text_background_opacity = 0.95
 config.macos_window_background_blur = 12 -- For MacOS
 config.native_macos_fullscreen_mode = true -- For MacOS
 
@@ -84,10 +84,10 @@ config.keys = {
     }
 }
 
-wezterm.on("gui-startup", function()
-    local tab, pane, window = mux.spawn_window {}
-    window:gui_window():maximize()
-    -- window:gui_window():toggle_fullscreen()
-end)
+-- wezterm.on("gui-startup", function()
+--     local tab, pane, window = mux.spawn_window {}
+--     window:gui_window():maximize()
+--     -- window:gui_window():toggle_fullscreen()
+-- end)
 
 return config
