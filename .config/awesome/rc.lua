@@ -20,8 +20,11 @@ require("awful.hotkeys_popup.keys")
 
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local logout_menu_widget = require("awesome-wm-widgets.logout-menu-widget.logout-menu")
-local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+-- local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
 local net_speed_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
+local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
+local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -196,6 +199,8 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+local separator = wibox.widget.textbox(" ")
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -235,7 +240,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         {
-          -- Left widgets
+            -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             -- mylauncher,
             s.mytaglist,
@@ -243,12 +248,25 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         {
-                      -- Right widgets
+            -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
             wibox.widget.systray(),
             net_speed_widget(),
+            brightness_widget {
+                type = 'icon_and_text',
+                program = 'xbacklight',
+            },
+            separator,
+            separator,
+            separator,
+            separator,
             volume_widget(),
+            separator,
+            separator,
+            separator,
+            separator,
+            battery_widget(),
             mytextclock,
             logout_menu_widget(),
             -- s.mylayoutbox,
@@ -394,7 +412,21 @@ globalkeys = gears.table.join(
         { description = "lua execute prompt", group = "awesome" }),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-        { description = "show the menubar", group = "launcher" })
+        { description = "show the menubar", group = "launcher" }),
+
+    -- Volume
+    awful.key({ modkey }, "F2", function() volume_widget:dec(5) end,
+        { description = "decrease volume", group = "custom" }),
+    awful.key({ modkey }, "F3", function() volume_widget:inc(5) end,
+        { description = "increase volume", group = "custom" }),
+    awful.key({ modkey }, "F4", function() volume_widget:toggle() end,
+        { description = "mute volume", group = "custom" }),
+
+    -- Brightness
+    awful.key({ modkey }, "F5", function() brightness_widget:dec() end,
+        { description = "decrease backlight", group = "custom" }),
+    awful.key({ modkey }, "F6", function() brightness_widget:inc() end,
+        { description = "increase backlight", group = "custom" })
 )
 
 clientkeys = gears.table.join(
@@ -532,7 +564,7 @@ awful.rules.rules = {
     {
         rule_any = {
             instance = {
-                "DTA", -- Firefox addon DownThemAll.
+                "DTA",   -- Firefox addon DownThemAll.
                 "copyq", -- Includes session name in class.
                 "pinentry",
             },
@@ -541,7 +573,7 @@ awful.rules.rules = {
                 "Blueman-manager",
                 "Gpick",
                 "Kruler",
-                "MessageWin", -- kalarm.
+                "MessageWin",  -- kalarm.
                 "Sxiv",
                 "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
                 "Wpa_gui",
@@ -557,9 +589,9 @@ awful.rules.rules = {
                 "Event Tester", -- xev.
             },
             role = {
-                "AlarmWindow", -- Thunderbird's calendar.
+                "AlarmWindow",   -- Thunderbird's calendar.
                 "ConfigManager", -- Thunderbird's about:config.
-                "pop-up",    -- e.g. Google Chrome's (detached) Developer Tools.
+                "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools.
             }
         },
         properties = { floating = true }
@@ -606,15 +638,15 @@ client.connect_signal("request::titlebars", function(c)
 
     awful.titlebar(c):setup {
         {
-          -- Left
+            -- Left
             awful.titlebar.widget.iconwidget(c),
             buttons = buttons,
             layout  = wibox.layout.fixed.horizontal
         },
         {
-              -- Middle
+            -- Middle
             {
-              -- Title
+                -- Title
                 align  = "center",
                 widget = awful.titlebar.widget.titlewidget(c)
             },
@@ -622,7 +654,7 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         {
-          -- Right
+            -- Right
             awful.titlebar.widget.floatingbutton(c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.stickybutton(c),
