@@ -4,9 +4,14 @@
 /.config/*
 
 !/.config/awesome
+!/.config/picom
+
 !/.config/hypr
+
 !/.config/waybar
+
 !/.config/zathura
+!/.config/flameshot
 
 !/.config/tmux
 !/.config/kitty
@@ -15,6 +20,9 @@
 !/.config/nvim
 
 !/.config/home-manager
+
+!/.config/libinput-gestures.conf
+!/.config/mimeapps.list
 
 !/.gitignore
 !/.bash_aliases
