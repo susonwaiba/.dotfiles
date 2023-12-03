@@ -18,6 +18,7 @@ end
 -- config.font = wezterm.font 'CaskaydiaCove Nerd Font Mono',
 config.font = wezterm.font 'CaskaydiaCove NF' -- For MacOS
 config.font_size = 14.0
+config.adjust_window_size_when_changing_font_size = false
 config.default_cursor_style = "SteadyBlock"
 
 -- config.color_scheme = 'Github (base16)' -- light
