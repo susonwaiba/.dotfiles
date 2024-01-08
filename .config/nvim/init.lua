@@ -15,4 +15,6 @@ vim.g.mapleader = " "
 
 require("lazy").setup("plugins")
 
-require "user"
+require("oil").setup()
+
+require('user')

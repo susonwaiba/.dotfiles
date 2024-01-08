@@ -41,6 +41,5 @@ vim.keymap.set("n", "<leader>tt", "<cmd>:TodoTrouble<CR>", { desc = "Todo troubl
 vim.keymap.set("n", "<leader>tf", "<cmd>:TodoTelescope<CR>", { desc = "Todo find" })
 
 -- run
-vim.keymap.set("n", "<Space>rb", ':! cd md_to_json && cargo run<CR>', { desc = "Run build" })
 vim.keymap.set("n", "<Space>rj", ':! just<CR>', { desc = "Run just" })
 
