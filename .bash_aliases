@@ -10,12 +10,10 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias vi="nvim"
+alias vi="time nvim"
 
 alias s="$HOME/.config/my-bash-jazz/bin/my-ssh"
-alias sw="$HOME/.config/my-bash-jazz/bin/my-ssh work"
 alias s-copy="$HOME/.config/my-bash-jazz/bin/my-ssh default copy"
-alias sw-copy="$HOME/.config/my-bash-jazz/bin/my-ssh work copy"
 
 alias a="tmux attach -d"
 alias n="$HOME/.config/my-bash-jazz/bin/my-tmux-session"
@@ -28,6 +26,8 @@ alias i="viu"
 alias m="termusic"
 alias m-d-y="yt-dlp -x -f bestaudio[ext=m4a] --add-metadata --embed-thumbnail"
 alias m-d-y-m4a="yt-dlp -x -f bestaudio[ext=m4a] --add-metadata"
+
+alias unzip-tar="tar -zxvf "
 
 alias pass-work='PASSWORD_STORE_DIR=~/.password-store-work pass'
 
