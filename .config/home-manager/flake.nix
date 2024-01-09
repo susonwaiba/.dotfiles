@@ -12,8 +12,8 @@
 
   outputs = { nixpkgs, home-manager, ... }:
     let
-      # system = "x86_64-linux";
-      system = "x86_64-darwin";
+      system = "x86_64-linux";
+      # system = "x86_64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
       homeConfigurations.suson = home-manager.lib.homeManagerConfiguration {
@@ -21,7 +21,9 @@
 
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.
-        modules = [ ./home.nix ];
+        # modules = [ ./home.nix ];
+        modules = [ ./home.linux.nix ];
+        # modules = [ ./home.mac.nix ];
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix

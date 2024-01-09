@@ -12,14 +12,9 @@ in {
 		bash = {
 			enable = true;
 			bashrcExtra = ''
-				export VISUAL="nvim"
-				export EDITOR=$VISUAL
-
-				# set -o vi
-
-				PATH="$PATH:$HOME/.config/my-bash-jazz/bin";
-				PATH="$PATH:$HOME/.config/my-script/bin";
-
+				if [ -f ~/.bashrc ]; then
+					. ~/.bashrc
+				fi
 				if [ -f ~/.bash_aliases ]; then
 					. ~/.bash_aliases
 				fi
@@ -52,33 +47,32 @@ in {
 	
 	home = {
 		username = "suson";
-		# homeDirectory = "/home/suson";
 		homeDirectory = "/Users/suson"; # For MacOS
 		stateVersion = "23.05";
 		packages = [
-			# pkgs.htop
-			# pkgs.btop
-			# pkgs.neofetch
-			# pkgs.nettools
-			# pkgs.bat
-			# pkgs.tmux
-			# pkgs.just
-			# pkgs.gnumake
-			# pkgs.sd
-			# pkgs.gcc
-			# pkgs.fzf
-			# pkgs.fd
-			# pkgs.jq
-			# pkgs.xclip
-			# pkgs.neovim
-			# pkgs.pass
-			# pkgs.lazygit
-			# pkgs.nodejs
-			# pkgs.yarn
-			# pkgs.sqlite
-			# pkgs.php82
-			# pkgs.php82Packages.composer
-			# pkgs.php82Extensions.sqlite3
+			pkgs.htop
+			pkgs.btop
+			pkgs.neofetch
+			pkgs.nettools
+			pkgs.bat
+			pkgs.tmux
+			pkgs.just
+			pkgs.gnumake
+			pkgs.sd
+			pkgs.gcc
+			pkgs.fzf
+			pkgs.fd
+			pkgs.jq
+			pkgs.xclip
+			pkgs.neovim
+			pkgs.pass
+			pkgs.lazygit
+			pkgs.nodejs
+			pkgs.yarn
+			pkgs.sqlite
+			pkgs.php82
+			pkgs.php82Packages.composer
+			pkgs.php82Extensions.sqlite3
 		];
 	};
 }

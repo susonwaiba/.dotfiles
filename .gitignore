@@ -19,6 +19,7 @@
 
 !/.config/nvim
 
+!/.config/nix
 !/.config/home-manager
 
 !/.config/libinput-gestures.conf
