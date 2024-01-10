@@ -363,14 +363,14 @@ globalkeys = gears.table.join(
         function() awful.util.spawn("flameshot full --clipboard --pin --path /home/suson/Pictures/Screenshots/") end,
         { description = "open screenshot" }),
 
-    -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("google-chrome-stable") end,
-    --     { description = "open browser" }),
+    awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("google-chrome-stable") end,
+        { description = "open browser" }),
 
     -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox") end,
     --     { description = "open browser" }),
 
-    awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox-developer-edition") end,
-        { description = "open browser" }),
+    -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox-developer-edition") end,
+    --     { description = "open browser" }),
 
 
     -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("brave") end,
