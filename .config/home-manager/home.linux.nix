@@ -15,10 +15,6 @@ in {
 				export VISUAL="nvim"
 				export EDITOR=$VISUAL
 
-				alias ls='ls --color=auto'
-				alias grep='grep --color=auto'
-				PS1='[\u@\h \W]\$ '
-
 				# set -o vi
 
 				export PATH="$PATH:$HOME/.local/bin"
@@ -78,11 +74,14 @@ in {
 			pkgs.jq
 			pkgs.xclip
 			pkgs.neovim
-			pkgs.pass
 			pkgs.lazygit
+			pkgs.sqlite
+			pkgs.pass
 			pkgs.nodejs_20
 			pkgs.yarn
-			pkgs.sqlite
+			pkgs.bun
+			pkgs.go
+			pkgs.rustup
 			pkgs.php83
 			pkgs.php83Packages.composer
 			pkgs.php83Packages.php-cs-fixer
