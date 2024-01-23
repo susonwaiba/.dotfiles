@@ -12,20 +12,9 @@ in {
 		bash = {
 			enable = true;
 			bashrcExtra = ''
-				export VISUAL="nvim"
-				export EDITOR=$VISUAL
-
-				# set -o vi
-
-				export PATH="$PATH:$HOME/.local/bin"
-				export PATH="$PATH:$HOME/.config/my-bash-jazz/bin";
-				export PATH="$PATH:$HOME/.config/my-script/bin";
-
-				if [ -f ~/.bash_aliases ]; then
-					. ~/.bash_aliases
-				fi
-				if [ -f ~/.hidden-dotfiles/.bash_aliases ]; then
-					. ~/.hidden-dotfiles/.bash_aliases
+				export NIXPKGS_ALLOW_UNFREE=1
+				if [ -f ~/.my-bashrc ]; then
+					. ~/.my-bashrc
 				fi
 			'';
 			shellAliases = {
@@ -64,6 +53,7 @@ in {
 			pkgs.neofetch
 			pkgs.nettools
 			pkgs.bat
+			pkgs.wrk
 			pkgs.tmux
 			pkgs.just
 			pkgs.gnumake

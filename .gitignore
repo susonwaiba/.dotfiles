@@ -29,4 +29,7 @@
 !/.bash_aliases
 !/.inputrc
 
+!/.bash_aliases
+!/.my-bashrc
+
 !/README.md

@@ -10,7 +10,7 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias vi="time nvim"
+alias vi="nvim"
 
 alias s="$HOME/.config/my-bash-jazz/bin/my-ssh"
 alias s-copy="$HOME/.config/my-bash-jazz/bin/my-ssh default copy"
@@ -20,7 +20,6 @@ alias n="$HOME/.config/my-bash-jazz/bin/my-tmux-session"
 alias N="$HOME/.config/my-script/bin/my-tmux-windowizer"
 
 alias t="$HOME/.config/my-bash-jazz/bin/my-tmux-session"
-alias tw="$HOME/.config/my-bash-jazz/bin/my-tmux-session work"
 
 alias i="viu"
 alias m="termusic"

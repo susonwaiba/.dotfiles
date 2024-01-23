@@ -12,16 +12,9 @@ in {
 		bash = {
 			enable = true;
 			bashrcExtra = ''
-				export VISUAL="nvim"
-				export EDITOR=$VISUAL
-
-				# set -o vi
-
-				PATH="$PATH:$HOME/.config/my-bash-jazz/bin";
-				PATH="$PATH:$HOME/.config/my-script/bin";
-
-				if [ -f ~/.bash_aliases ]; then
-					. ~/.bash_aliases
+				export NIXPKGS_ALLOW_UNFREE=1
+				if [ -f ~/.my-bashrc ]; then
+					. ~/.my-bashrc
 				fi
 			'';
 			shellAliases = {
