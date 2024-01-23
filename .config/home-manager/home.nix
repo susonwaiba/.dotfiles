@@ -4,7 +4,7 @@
   home.username = "suson";
   home.homeDirectory = if pkgs.system == "x86_64-linux" then "/home/suson" else "/Users/suson";
 
-  home.stateVersion = "23.05";
+  home.stateVersion = "24.05";
 
   # Install via: nix-env -iA nixpkgs.home-manager
   # programs.home-manager.enable = true;
