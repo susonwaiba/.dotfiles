@@ -30,6 +30,8 @@
   };
 
   home.packages = [
+    pkgs.zip
+    pkgs.unzip
     pkgs.htop
     pkgs.btop
     pkgs.neofetch
