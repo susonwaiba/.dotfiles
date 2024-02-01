@@ -5,11 +5,10 @@ return {
             require('conform').setup {
                 notify_on_error = true,
                 formatters_by_ft = {
-                    php = { "php_cs_fixer" }
+                    php = { "php_cs_fixer" },
+                    javascript = { { "prettierd", "prettier" } },
+                    ["*"] = { "codespell" },
                 },
-                -- format_after_save = {
-                --     lsp_fallback = true,
-                -- },
                 formatters = {
                     php_cs_fixer = {
                         command = "php-cs-fixer",
@@ -26,6 +25,14 @@ return {
                     }
                 }
             }
+
+            vim.keymap.set("n", "<leader>lF", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format" })
+            vim.keymap.set("n", "<leader>lf", function()
+                require("conform").format({
+                    async = true,
+                    lsp_fallback = true
+                })
+            end, { desc = "Format with comform" })
         end,
     },
 }

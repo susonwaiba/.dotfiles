@@ -6,22 +6,6 @@
 
   home.stateVersion = "24.05";
 
-  # Install via: nix-env -iA nixpkgs.home-manager
-  # programs.home-manager.enable = true;
-  programs.bash = {
-    enable = true;
-    bashrcExtra = ''
-      export NIXPKGS_ALLOW_UNFREE=1
-      if [ -f ~/.my-bashrc ]; then
-        . ~/.my-bashrc
-      fi
-    '';
-  };
-  programs.git = {
-    enable = true;
-    userName = "Suson Waiba";
-    userEmail = "susonwaiba@gmail.com";
-  };
   programs.direnv = {
     enable = true;
     nix-direnv = {
@@ -40,9 +24,9 @@
     pkgs.wrk
     pkgs.tmux
     pkgs.just
-    pkgs.gnumake
+    # pkgs.gnumake
     pkgs.sd
-    pkgs.gcc
+    # pkgs.gcc
     pkgs.fzf
     pkgs.fd
     pkgs.jq
@@ -51,11 +35,12 @@
     pkgs.lazygit
     pkgs.sqlite
     pkgs.pass
-    pkgs.nodejs_20
-    pkgs.yarn
-    pkgs.bun
-    pkgs.go
-    pkgs.rustup
+    # pkgs.nodejs_18
+    # pkgs.nodejs_20
+    # pkgs.yarn
+    # pkgs.bun
+    # pkgs.go
+    # pkgs.rustup
     pkgs.php83
     pkgs.php83Packages.composer
     pkgs.php83Packages.php-cs-fixer

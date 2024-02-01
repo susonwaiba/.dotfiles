@@ -16,7 +16,7 @@ picom &
 libinput-gestures-setup start &
 dbus-launch &
 # sleep 1;
-nm-applet &
+nm-applet --no-agent &
 # /usr/bin/teams &
 # /usr/bin/discord &
 /usr/bin/flameshot &

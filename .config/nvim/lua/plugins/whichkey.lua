@@ -11,6 +11,8 @@ return {
 
             wk.register({
                 f = { name = "+Find" },
+                ["fl"] = { name = "+Find LSP" },
+                ["fls"] = { name = "+Find LSP Symbol" },
 
                 t = { name = "+Todo" },
                 x = { name = "+Trouble" },

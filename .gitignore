@@ -5,13 +5,13 @@
 
 !/.config/awesome
 !/.config/picom
+!/.config/flameshot
 
 !/.config/hypr
-
+!/.config/wofi
 !/.config/waybar
 
 !/.config/zathura
-!/.config/flameshot
 
 !/.config/tmux
 !/.config/kitty

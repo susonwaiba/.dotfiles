@@ -1,7 +1,7 @@
 return {
     {
         'github/copilot.vim',
-        event = 'BufEnter',
+        event = { "BufReadPre", "BufNewFile" },
         init = function()
             -- vim.g.copilot_no_tab_map = true
             vim.g.copilot_assume_mapped = true

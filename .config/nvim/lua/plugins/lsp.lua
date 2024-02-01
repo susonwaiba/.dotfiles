@@ -1,29 +1,15 @@
 return {
+    -- LSP Configuration & Plugins
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
     {
-        -- LSP Configuration & Plugins
         'neovim/nvim-lspconfig',
-        dependencies = {
-            -- Automatically install LSPs to stdpath for neovim
-            { 'williamboman/mason.nvim', config = true },
-            'williamboman/mason-lspconfig.nvim',
-
-            -- Useful status updates for LSP
-            -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-            { 'j-hui/fidget.nvim', opts = {} },
-
-            -- Additional lua configuration, makes nvim stuff amazing!
-            'folke/neodev.nvim',
-        },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
-            vim.keymap.set("n", "<leader>lF", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format" })
-            vim.keymap.set("n", "<leader>lf", function()
-                require("conform").format({ async = true, lsp_fallback = true })
-            end, { desc = "Format with comform" })
-
             local on_attach = function(client, bufnr)
-                if client.name == "phpactor" then
-                    client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
-                end
+                -- if client.name == "phpactor" then
+                --     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+                -- end
                 local nmap = function(keys, func, desc)
                     if desc then
                         desc = "LSP: " .. desc
@@ -60,58 +46,37 @@ return {
                 end, { desc = "Format current buffer with LSP" })
             end
 
-            -- Enable the following language servers
-            --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-            --
-            --  Add any additional override configuration in the following tables. They will be passed to
-            --  the `settings` field of the server config. You must look up that documentation yourself.
-            --
-            --  If you want to override the default filetypes that your language server will attach to you can
-            --  define the property 'filetypes' to the map in question.
-            local servers = {
-                -- clangd = {},
-                -- gopls = {},
-                -- pyright = {},
-                -- rust_analyzer = {},
-
-                tsserver = { filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact' } },
-
-                html = { filetypes = { 'html', 'twig', 'js', 'jsx', 'ts', 'tsx' } },
-                tailwindcss = { filetypes = { 'html', 'twig', 'js', 'jsx', 'ts', 'tsx' } },
-
-                phpactor = { filetypes = { 'php', 'twig' } },
-            }
-
             -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+            require("mason").setup()
+
             -- Ensure the servers above are installed
-            local mason_lspconfig = require "mason-lspconfig"
+            local mason_lspconfig = require("mason-lspconfig")
 
             mason_lspconfig.setup {
-                ensure_installed = vim.tbl_keys(servers),
+                ensure_installed = {},
                 library = {
                     plugins = { "nvim-dap-ui" },
                     types = true,
                 },
             }
-
             mason_lspconfig.setup_handlers {
                 function(server_name)
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities,
                         on_attach = on_attach,
-                        settings = servers[server_name],
-                        filetypes = (servers[server_name] or {}).filetypes
                     }
                 end
             }
-
-            require("neodev").setup({
-                library = { plugins = { "nvim-dap-ui" }, types = true },
-            })
         end
+    },
+    {
+        "folke/neodev.nvim",
+        opts = {
+            library = { types = true, plugins = { "nvim-dap-ui" } },
+        }
     },
     {
         "ray-x/lsp_signature.nvim",

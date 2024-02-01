@@ -1,6 +1,7 @@
 export VISUAL="nvim";
 export EDITOR=$VISUAL
 # set -o vi
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -86,11 +87,16 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
+alias vi='nvim'
 
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.config/my-bash-jazz/bin";
 export PATH="$PATH:$HOME/.config/my-script/bin";
+
+export PATH="$PATH:$HOME/.symfony5/bin"
+export PATH="$PATH:$HOME/.composer/vendor/bin"
+
+export PATH="/home/suson/.local/share/bob/nvim-bin:$PATH"
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
