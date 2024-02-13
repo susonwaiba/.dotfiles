@@ -5,7 +5,7 @@ return {
     },
     {
         'nvim-telescope/telescope.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
+        dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-ui-select.nvim' },
         config = function()
             require('telescope').setup({
                 defaults = {
@@ -28,6 +28,7 @@ return {
 
             require('telescope').load_extension('fzf')
             require("telescope").load_extension("harpoon")
+            require("telescope").load_extension("ui-select")
 
             local builtin = require('telescope.builtin')
 

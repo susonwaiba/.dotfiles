@@ -7,9 +7,9 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         config = function()
             local on_attach = function(client, bufnr)
-                -- if client.name == "phpactor" then
-                --     client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
-                -- end
+                if client.name == "phpactor" then
+                    client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+                end
                 local nmap = function(keys, func, desc)
                     if desc then
                         desc = "LSP: " .. desc
@@ -49,12 +49,11 @@ return {
             -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
 
             require("mason").setup()
 
-            -- Ensure the servers above are installed
             local mason_lspconfig = require("mason-lspconfig")
-
             mason_lspconfig.setup {
                 ensure_installed = {},
                 library = {
@@ -68,7 +67,21 @@ return {
                         capabilities = capabilities,
                         on_attach = on_attach,
                     }
-                end
+                end,
+                ['html'] = function()
+                    require("lspconfig")["html"].setup {
+                        capabilities = capabilities,
+                        on_attach = on_attach,
+                        filetypes = { "html", "htmldjango" },
+                    }
+                end,
+                ['htmx'] = function()
+                    require("lspconfig")["htmx"].setup {
+                        capabilities = capabilities,
+                        on_attach = on_attach,
+                        filetypes = { "html", "htmldjango" },
+                    }
+                end,
             }
         end
     },
