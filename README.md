@@ -14,6 +14,8 @@ nix-shell '<home-manager>' -A install # for nixos
 # OR
 nix-env -iA nixpkgs.home-manager # for global install
 
+# linux OR darwin at ~/.config/home-manager/flake.nix
+
 home-manager init
 home-manager build
 home-manager switch

@@ -31,6 +31,7 @@
     pkgs.fd
     pkgs.jq
     pkgs.xclip
+    pkgs.ripgrep
     pkgs.neovim
     pkgs.lazygit
     pkgs.sqlite
