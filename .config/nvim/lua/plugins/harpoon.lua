@@ -1,24 +1,46 @@
 return {
     {
         'theprimeagen/harpoon',
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
-            require("harpoon").setup({
-                menu = {
-                    width = vim.api.nvim_win_get_width(0) - 10,
-                    height = vim.api.nvim_win_get_height(0) - 10,
-                }
-            })
+            local harpoon = require("harpoon")
+            local extensions = require("harpoon.extensions");
 
-            local mark = require("harpoon.mark")
-            local ui = require("harpoon.ui")
+            harpoon.setup()
+            harpoon:extend(extensions.builtins.navigate_with_number());
 
-            vim.keymap.set("n", "<M-n>", mark.add_file, { desc = "Harpoon new item" })
-            vim.keymap.set("n", "<M-h>", ui.toggle_quick_menu, { desc = "Harpoon menu" })
+            local conf = require("telescope.config").values
+            local function toggle_telescope(harpoon_files)
+                local file_paths = {}
+                for _, item in ipairs(harpoon_files.items) do
+                    table.insert(file_paths, item.value)
+                end
 
-            vim.keymap.set("n", "<M-j>", function() ui.nav_file(1) end, { desc = "Nav no: 1" })
-            vim.keymap.set("n", "<M-k>", function() ui.nav_file(2) end, { desc = "Nav no: 2" })
-            vim.keymap.set("n", "<M-l>", function() ui.nav_file(3) end, { desc = "Nav no: 3" })
-            vim.keymap.set("n", "<M-;>", function() ui.nav_file(4) end, { desc = "Nav no: 4" })
+                require("telescope.pickers").new({}, {
+                    prompt_title = "Harpoon",
+                    finder = require("telescope.finders").new_table({
+                        results = file_paths,
+                    }),
+                    previewer = conf.file_previewer({}),
+                    sorter = conf.generic_sorter({}),
+                }):find()
+            end
+
+            vim.keymap.set("n", "<leader>hf", function() toggle_telescope(harpoon:list()) end,
+                { desc = "Harpoon find" })
+
+            vim.keymap.set("n", "<M-h>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+                { desc = "Harpoon menu" })
+            vim.keymap.set("n", "<M-n>", function() harpoon:list():append() end, { desc = "Harpoon new item" })
+
+            vim.keymap.set("n", "<M-j>", function() harpoon:list():select(1) end, { desc = "Nav no: 1" })
+            vim.keymap.set("n", "<M-k>", function() harpoon:list():select(2) end, { desc = "Nav no: 2" })
+            vim.keymap.set("n", "<M-l>", function() harpoon:list():select(3) end, { desc = "Nav no: 3" })
+            vim.keymap.set("n", "<M-;>", function() harpoon:list():select(4) end, { desc = "Nav no: 4" })
+
+            vim.keymap.set("n", "<leader>hp", function() harpoon:list():prev() end, { desc = "Nav previous" })
+            vim.keymap.set("n", "<leader>hn", function() harpoon:list():next() end, { desc = "Nav next" })
         end,
     },
 }
