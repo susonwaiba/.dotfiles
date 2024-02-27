@@ -17,7 +17,11 @@ end
 
 -- config.font = wezterm.font 'CaskaydiaCove Nerd Font Mono',
 config.font = wezterm.font 'CaskaydiaCove NF' -- For MacOS
-config.font_size = 14.0
+if wezterm.target_triple == 'x86_64-apple-darwin' then
+    config.font_size = 16.0
+else
+    config.font_size = 14.0
+end
 config.adjust_window_size_when_changing_font_size = false
 config.default_cursor_style = "SteadyBlock"
 
@@ -70,7 +74,7 @@ config.hide_tab_bar_if_only_one_tab = true
 -- }
 config.window_background_opacity = 0.95
 -- config.text_background_opacity = 0.95
-config.macos_window_background_blur = 12 -- For MacOS
+config.macos_window_background_blur = 12   -- For MacOS
 config.native_macos_fullscreen_mode = true -- For MacOS
 
 config.audible_bell = "Disabled"
@@ -85,10 +89,12 @@ config.keys = {
     }
 }
 
--- wezterm.on("gui-startup", function()
---     local tab, pane, window = mux.spawn_window {}
---     window:gui_window():maximize()
---     -- window:gui_window():toggle_fullscreen()
--- end)
+wezterm.on("gui-startup", function()
+    local tab, pane, window = mux.spawn_window {}
+    window:gui_window():maximize()
+    -- if wezterm.target_triple == 'x86_64-apple-darwin' then
+    --     window:gui_window():toggle_fullscreen()
+    -- end
+end)
 
 return config
