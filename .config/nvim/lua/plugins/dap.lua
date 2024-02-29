@@ -1,7 +1,17 @@
 return {
     {
-        'rcarriga/nvim-dap-ui',
-        dependencies = 'mfussenegger/nvim-dap',
+        'mfussenegger/nvim-dap',
+        dependencies = {
+            -- Creates a beautiful debugger UI
+            'rcarriga/nvim-dap-ui',
+
+            -- Installs the debug adapters for you
+            'williamboman/mason.nvim',
+            'jay-babu/mason-nvim-dap.nvim',
+
+            -- Add your own debuggers here
+            'leoluz/nvim-dap-go',
+        },
         init = function()
             vim.diagnostic.config({
                 virtual_text = true,
@@ -11,93 +21,61 @@ return {
                 severity_sort = false,
                 float = true,
             })
-
-            vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
         end,
         config = function()
-            local dap, dapui = require("dap"), require("dapui")
+            local dap = require 'dap'
+            local dapui = require 'dapui'
 
-            dap.listeners.after.event_initialized["dapui_config"] = function()
-                dapui.open()
-            end
-            dap.listeners.before.event_terminated["dapui_config"] = function()
-                dapui.close()
-            end
-            dap.listeners.before.event_exited["dapui_config"] = function()
-                dapui.close()
-            end
+            require('mason-nvim-dap').setup {
+                -- Makes a best effort to setup the various debuggers with
+                -- reasonable debug configurations
+                automatic_setup = true,
 
-            dap.adapters.php = {
-                type = 'executable',
-                command = 'node',
-                args = { os.getenv("HOME") .. "/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js" }
-                -- args = { '/path/to/vscode-php-debug/out/phpDebug.js' }
-            }
-            dap.adapters["pwa-node"] = {
-                type = 'executable',
-                -- command = os.getenv("HOME") ..
-                --     "/.local/share/nvim/mason/packages/node-debug2-adapter/node-debug2-adapter"
-                command = 'node',
-                args = { os.getenv("HOME") .. "/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js" }
-            }
+                -- You can provide additional configuration to the handlers,
+                -- see mason-nvim-dap README for more information
+                handlers = {},
 
-            dap.configurations.php = {
-                {
-                    type = 'php',
-                    request = 'launch',
-                    name = 'Launch for Xdebug',
-                    hostname = '127.0.0.1',
-                    port = 9003,
+                -- You'll need to check that you have the required things installed
+                -- online, please don't ask me how to install them :)
+                ensure_installed = {
+                    -- Update this to ensure that you have the debuggers for the langs you want
+                    'delve',
                 },
             }
-            for _, language in ipairs({ 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }) do
-                dap.configurations[language] = {
-                    {
-                        type = 'pwa-node',
-                        request = 'launch',
-                        name = 'Launch for Node',
-                        program = "${file}",
-                        cwd = '${workspaceFolder}',
-                        sourceMaps = true,
-                    },
-                    {
-                        type = 'pwa-node',
-                        request = 'attach',
-                        name = 'Attach for Node process',
-                        cwd = '${workspaceFolder}',
-                        sourceMaps = true,
-                        processId = require('dap.utils').pick_process,
-                        protocol = "inspector",
-                    },
-                    {
-                        type = 'pwa-node',
-                        request = 'attach',
-                        name = 'Attach for redwood process',
-                        cwd = '${workspaceFolder}',
-                        sourceMaps = true,
-                        processId = require('dap.utils').pick_process,
-                        port = 18911,
-                        protocol = "inspector",
-                        localRoot = "${workspaceFolder}/node_modules/@redwoodjs/api-server/dist",
-                        remoteRoot = "${workspaceFolder}/node_modules/@redwoodjs/api-server/dist",
-                        skipFiles = {
-                            "<node_internals>/**",
-                        }
-                    },
-                }
-            end
 
-            dapui.setup()
+            -- Dap UI setup
+            -- For more information, see |:help nvim-dap-ui|
+            dapui.setup {
+                -- Set icons to characters that are more likely to work in every terminal.
+                --    Feel free to remove or use ones that you like more! :)
+                --    Don't feel like these are good choices.
+                icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+                controls = {
+                    icons = {
+                        pause = '⏸',
+                        play = '▶',
+                        step_into = '⏎',
+                        step_over = '⏭',
+                        step_out = '⏮',
+                        step_back = 'b',
+                        run_last = '▶▶',
+                        terminate = '⏹',
+                        disconnect = '⏏',
+                    },
+                },
+            }
 
-            vim.keymap.set("n", "<leader>dc", ":lua require'dap'.continue()<CR>", { desc = "Continue" })
-            vim.keymap.set("n", "<leader>dso", ":lua require'dap'.step_over()<CR>", { desc = "Step over" })
-            vim.keymap.set("n", "<leader>dsi", ":lua require'dap'.step_into()<CR>", { desc = "Step into" })
-            vim.keymap.set("n", "<leader>dsO", ":lua require'dap'.step_out()<CR>", { desc = "Step out" })
-            vim.keymap.set("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", { desc = "Toggle breakpoint" })
+            vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Start/Continue" })
+            vim.keymap.set("n", "<leader>dso", dap.step_into, { desc = "Step over" })
+            vim.keymap.set("n", "<leader>dsi", dap.step_over, { desc = "Step into" })
+            vim.keymap.set("n", "<leader>dsO", dap.step_out, { desc = "Step out" })
+            vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
             vim.keymap.set("n", "<leader>dB",
-                ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+                ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+                { desc = "Set conditional breakpoint" })
             vim.keymap.set("n", "<leader>dp",
-                ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+                ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+                { desc = "Set log point" })
             vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
             vim.keymap.set("n", "<leader>do", ":lua require'dapui'.toggle()<CR>", { desc = "DapUI" })
         end

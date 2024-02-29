@@ -7,28 +7,26 @@ return {
         'nvim-telescope/telescope.nvim',
         dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-ui-select.nvim' },
         config = function()
-            require('telescope').setup({
-                defaults = {
-                    mappings = {
-                        i = {
-                            ['<C-u>'] = false,
-                            ['<C-d>'] = false,
-                        },
+            require('telescope').setup {
+                -- You can put your default mappings / updates / etc. in here
+                --  All the info you're looking for is in `:help telescope.setup()`
+                --
+                -- defaults = {
+                --   mappings = {
+                --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+                --   },
+                -- },
+                -- pickers = {}
+                extensions = {
+                    ['ui-select'] = {
+                        require('telescope.themes').get_dropdown(),
                     },
                 },
-                extensions = {
-                    fzf = {
-                        fuzzy = true,
-                        override_generic_sorter = true,
-                        override_file_sorter = true,
-                        case_mode = "smart_case",
-                    }
-                }
-            })
+            }
 
-            require('telescope').load_extension('fzf')
-            require("telescope").load_extension("harpoon")
-            require("telescope").load_extension("ui-select")
+            pcall(require('telescope').load_extension, 'fzf')
+            pcall(require('telescope').load_extension, 'harpoon')
+            pcall(require('telescope').load_extension, 'ui-select')
 
             local builtin = require('telescope.builtin')
 

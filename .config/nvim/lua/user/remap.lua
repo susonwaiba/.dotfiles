@@ -42,4 +42,3 @@ vim.keymap.set("n", "<leader>tf", "<cmd>:TodoTelescope<CR>", { desc = "Todo find
 
 -- run
 vim.keymap.set("n", "<Space>rj", ':! just<CR>', { desc = "Run just" })
-

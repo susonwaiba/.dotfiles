@@ -3,7 +3,7 @@ return {
         'stevearc/conform.nvim',
         config = function()
             require('conform').setup {
-                notify_on_error = true,
+                notify_on_error = false,
                 formatters_by_ft = {
                     php = { "php_cs_fixer" },
                     javascript = { { "prettierd", "prettier" } },
