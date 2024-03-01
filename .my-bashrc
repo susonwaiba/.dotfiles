@@ -2,7 +2,9 @@ export VISUAL="nvim";
 export EDITOR=$VISUAL
 # set -o vi
 
-export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+if [ -x /usr/lib/locale/locale-archive ]; then
+    export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -28,7 +30,7 @@ export PATH="$PATH:$HOME/.config/my-script/bin";
 export PATH="$PATH:$HOME/.symfony5/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
-export PATH="/home/suson/.local/share/bob/nvim-bin:$PATH"
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
