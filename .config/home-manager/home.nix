@@ -32,7 +32,7 @@
     pkgs.jq
     pkgs.xclip
     pkgs.ripgrep
-    pkgs.neovim
+    # pkgs.neovim
     pkgs.lazygit
     pkgs.sqlite
     pkgs.pass
