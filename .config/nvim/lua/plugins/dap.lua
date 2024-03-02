@@ -8,9 +8,6 @@ return {
             -- Installs the debug adapters for you
             'williamboman/mason.nvim',
             'jay-babu/mason-nvim-dap.nvim',
-
-            -- Add your own debuggers here
-            'leoluz/nvim-dap-go',
         },
         init = function()
             vim.diagnostic.config({
@@ -39,7 +36,6 @@ return {
                 -- online, please don't ask me how to install them :)
                 ensure_installed = {
                     -- Update this to ensure that you have the debuggers for the langs you want
-                    'delve',
                 },
             }
 

@@ -1,39 +1,25 @@
 return {
-    {
+    { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
-        dependencies = {
-            {
-                "nvim-treesitter/nvim-treesitter-textobjects",
-                init = function()
-                    -- disable rtp plugin, as we only need its queries for mini.ai
-                    -- In case other textobject modules are enabled, we will load them
-                    -- once nvim-treesitter is loaded
-                    require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
-                    load_textobjects = true
-                end,
-            },
-            {
-                'nvim-treesitter/playground',
-            },
-        },
-        build = ":TSUpdate",
-        cmd = { "TSUpdateSync" },
-        opts = {
-            -- A list of parser names, or "all"
-            ensure_installed = { "c", "lua", "luadoc", "vim", "vimdoc", "query", "bash", "markdown", "yaml" },
+        build = ':TSUpdate',
+        config = function()
+            -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = true,
+            ---@diagnostic disable-next-line: missing-fields
+            require('nvim-treesitter.configs').setup {
+                ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+                -- Autoinstall languages that are not installed
+                auto_install = true,
+                highlight = { enable = true },
+                indent = { enable = true },
+            }
 
-            -- Automatically install missing parsers when entering buffer
-            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-            auto_install = true,
-
-            -- List of parsers to ignore installing (for "all")
-            -- ignore_install = { "javascript" },
-
-            highlight = { enable = true },
-            indent = { enable = true },
-        },
+            -- There are additional nvim-treesitter modules that you can use to interact
+            -- with nvim-treesitter. You should go explore a few and see what interests you:
+            --
+            --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+            --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+            --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+        end,
     },
 }
