@@ -2,7 +2,7 @@ export VISUAL="nvim";
 export EDITOR=$VISUAL
 # set -o vi
 
-if [ -x /usr/lib/locale/locale-archive ]; then
+if [ -f /usr/lib/locale/locale-archive ]; then
     export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
 fi
 
