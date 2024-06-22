@@ -7,6 +7,9 @@ return {
                 formatters_by_ft = {
                     php = { "php_cs_fixer" },
                     javascript = { { "prettierd", "prettier" } },
+                    javascriptreact = { { "prettierd", "prettier" } },
+                    typescript = { { "prettierd", "prettier" } },
+                    typescriptreact = { { "prettierd", "prettier" } },
                     ["*"] = { "codespell" },
                 },
                 formatters = {
