@@ -32,7 +32,7 @@ return {
 
             vim.keymap.set("n", "<M-h>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
                 { desc = "Harpoon menu" })
-            vim.keymap.set("n", "<M-n>", function() harpoon:list():append() end, { desc = "Harpoon new item" })
+            vim.keymap.set("n", "<M-n>", function() harpoon:list():add() end, { desc = "Harpoon new item" })
 
             vim.keymap.set("n", "<M-j>", function() harpoon:list():select(1) end, { desc = "Nav no: 1" })
             vim.keymap.set("n", "<M-k>", function() harpoon:list():select(2) end, { desc = "Nav no: 2" })
