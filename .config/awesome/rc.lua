@@ -362,20 +362,18 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Crontrol", "Shift" }, "Print",
         function() awful.util.spawn("flameshot full --clipboard --pin --path /home/suson/Pictures/Screenshots/") end,
         { description = "open screenshot" }),
-
     awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("google-chrome-stable") end,
         { description = "open browser" }),
+    awful.key({ modkey, "Shift" }, "-",
+        function() awful.util.spawn("i3lock -i /home/suson/.my-background/background-dark.png -t") end,
+        { description = "open lock screen" }),
 
     -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox") end,
     --     { description = "open browser" }),
-
     -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("firefox-developer-edition") end,
     --     { description = "open browser" }),
-
-
     -- awful.key({ modkey, "Shift" }, "w", function() awful.util.spawn("brave") end,
     --     { description = "open browser" }),
-
     --awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
     --          {description = "select next", group = "layout"}),
     --awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
@@ -458,19 +456,19 @@ clientkeys = gears.table.join(
             c.maximized = not c.maximized
             c:raise()
         end,
-        { description = "(un)maximize", group = "client" }),
-    awful.key({ modkey, "Control" }, "m",
-        function(c)
-            c.maximized_vertical = not c.maximized_vertical
-            c:raise()
-        end,
-        { description = "(un)maximize vertically", group = "client" }),
-    awful.key({ modkey, "Shift" }, "m",
-        function(c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c:raise()
-        end,
-        { description = "(un)maximize horizontally", group = "client" })
+        { description = "(un)maximize", group = "client" })
+    -- awful.key({ modkey, "Control" }, "m",
+    --     function(c)
+    --         c.maximized_vertical = not c.maximized_vertical
+    --         c:raise()
+    --     end,
+    --     { description = "(un)maximize vertically", group = "client" }),
+    -- awful.key({ modkey, "Shift" }, "m",
+    --     function(c)
+    --         c.maximized_horizontal = not c.maximized_horizontal
+    --         c:raise()
+    --     end,
+    --     { description = "(un)maximize horizontally", group = "client" })
 )
 
 -- Bind all key numbers to tags.
