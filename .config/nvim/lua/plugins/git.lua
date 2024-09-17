@@ -5,7 +5,7 @@ return {
     {
         'tpope/vim-fugitive',
         init = function()
-            vim.keymap.set("n", "<leader>gg", "<cmd>Git<CR>", { desc = "Git fugitive" })
+            vim.keymap.set("n", "<leader>gg", "<cmd>G<CR>", { desc = "Git fugitive" })
             vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<CR>", { desc = "Git diffview open" })
             vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewClose<CR>", { desc = "Git diffview close" })
         end
