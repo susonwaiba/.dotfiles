@@ -6,10 +6,12 @@ return {
                 notify_on_error = false,
                 formatters_by_ft = {
                     php = { "php_cs_fixer" },
-                    javascript = { { "prettierd", "prettier" } },
-                    javascriptreact = { { "prettierd", "prettier" } },
-                    typescript = { { "prettierd", "prettier" } },
-                    typescriptreact = { { "prettierd", "prettier" } },
+                    javascript = { "prettierd" },
+                    javascriptreact = { "prettierd" },
+                    typescript = { "prettierd" },
+                    typescriptreact = { "prettierd" },
+                    html = { "prettierd" },
+                    htmldjango = { "prettierd" },
                     ["*"] = { "codespell" },
                 },
                 formatters = {

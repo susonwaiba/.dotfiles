@@ -140,6 +140,9 @@ return {
                 htmx = {
                     filetypes = { "html", "htmldjango" },
                 },
+                jinja_lsp = {
+                    filetypes = { "html", "htmldjango" },
+                }
             }
 
             require("mason").setup()
