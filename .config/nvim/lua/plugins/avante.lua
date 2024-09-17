@@ -51,5 +51,8 @@ return {
                 ft = { "markdown", "Avante" },
             },
         },
+        config = function()
+            require("copilot").setup({})
+        end,
     }
 }
