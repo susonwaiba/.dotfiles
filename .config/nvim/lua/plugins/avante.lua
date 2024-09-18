@@ -24,7 +24,14 @@ return {
             "MunifTanjim/nui.nvim",
             --- The below dependencies are optional,
             "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-            "zbirenbaum/copilot.lua",      -- for providers='copilot'
+            {
+                "zbirenbaum/copilot.lua",
+                cmd = "Copilot",
+                event = "InsertEnter",
+                config = function()
+                    require("copilot").setup({})
+                end,
+            }, -- for providers='copilot'
             {
                 -- support for image pasting
                 "HakonHarnes/img-clip.nvim",
@@ -51,8 +58,5 @@ return {
                 ft = { "markdown", "Avante" },
             },
         },
-        config = function()
-            require("copilot").setup({})
-        end,
     }
 }
