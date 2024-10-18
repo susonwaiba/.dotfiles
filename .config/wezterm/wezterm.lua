@@ -101,6 +101,7 @@ config.hide_tab_bar_if_only_one_tab = true
 --     hue = 0.4,
 --     saturation = 0.2,
 -- }
+config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.95
 -- config.text_background_opacity = 0.95
 config.macos_window_background_blur = 12   -- For MacOS
@@ -123,6 +124,9 @@ wezterm.on("gui-startup", function()
     if wezterm.target_triple == 'x86_64-apple-darwin' then
         window:gui_window():maximize()
         -- window:gui_window():toggle_fullscreen()
+    else
+        window:gui_window():maximize()
+        -- window:gui_window():restore()
     end
 end)
 
