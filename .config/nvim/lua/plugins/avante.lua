@@ -15,6 +15,15 @@ return {
                 auto_apply_diff_after_generation = false,
                 support_paste_from_clipboard = false,
             },
+            mappings = {
+                --- @class AvanteConflictMappings
+                suggestion = {
+                    accept = "<C-y>",
+                    next = "<C-n>",
+                    prev = "<C-p>",
+                    dismiss = "<C-q>",
+                }
+            }
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
@@ -24,7 +33,7 @@ return {
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
             --- The below dependencies are optional,
-            "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+            "echasnovski/mini.icons",
             {
                 "zbirenbaum/copilot.lua",
                 cmd = "Copilot",
