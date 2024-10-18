@@ -79,7 +79,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- search keyword in middle
 vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "p", "Nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>tl", "<cmd>:TodoQuickFix<CR>", { desc = "Todo quick fix" })
 vim.keymap.set("n", "<leader>tt", "<cmd>:TodoTrouble<CR>", { desc = "Todo trouble" })
