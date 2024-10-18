@@ -7,6 +7,7 @@ return {
         opts = {
             ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
             provider = "copilot",
+            auto_suggestions_provider = "copilot",
             behaviour = {
                 auto_suggestions = true, -- Experimental stage
                 auto_set_highlight_group = true,
@@ -30,6 +31,7 @@ return {
                 event = "InsertEnter",
                 config = function()
                     require("copilot").setup({})
+                    vim.cmd(":Copilot auth")
                 end,
             }, -- for providers='copilot'
             {
