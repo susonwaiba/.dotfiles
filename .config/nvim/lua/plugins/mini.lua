@@ -55,7 +55,7 @@ return {
                 }
             })
 
-            require('mini.completion').setup()
+            -- require('mini.completion').setup()
 
             vim.cmd([[highlight MiniStatuslineModeNormal guibg=#d78700 guifg=#262626]])
             require('mini.statusline').setup()
