@@ -18,10 +18,10 @@ return {
             mappings = {
                 --- @class AvanteConflictMappings
                 suggestion = {
-                    accept = "<C-y>",
-                    next = "<C-n>",
-                    prev = "<C-p>",
-                    dismiss = "<C-q>",
+                    accept = "<M-y>",
+                    next = "<M-n>",
+                    prev = "<M-p>",
+                    dismiss = "<M-q>",
                 }
             }
         },
