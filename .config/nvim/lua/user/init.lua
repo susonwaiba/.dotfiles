@@ -1,5 +1,5 @@
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -7,7 +7,7 @@ vim.g.have_nerd_font = false
 --  For more options, you can see `:help option-list`
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 vim.opt.guicursor = ""
 
 -- Don't show the mode, since it's already in status line
@@ -43,7 +43,7 @@ vim.opt.undofile = true
 vim.opt.incsearch = true
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 vim.opt.termguicolors = true
 
@@ -65,11 +65,11 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace in the editor.
 --  See :help 'list'
 --  and :help 'listchars'
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.list = false
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = false
@@ -89,9 +89,5 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<leader>tl", "<cmd>:TodoQuickFix<CR>", { desc = "Todo quick fix" })
-vim.keymap.set("n", "<leader>tt", "<cmd>:TodoTrouble<CR>", { desc = "Todo trouble" })
-vim.keymap.set("n", "<leader>tf", "<cmd>:TodoTelescope<CR>", { desc = "Todo find" })
-
 -- run
-vim.keymap.set("n", "<Space>rj", ':! just<CR>', { desc = "Run just" })
+vim.keymap.set("n", "<Space>rj", ":! just<CR>", { desc = "Run just" })
