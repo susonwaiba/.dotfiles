@@ -6,6 +6,9 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
+-- views can only be fully collapsed with the global statusline
+vim.opt.laststatus = 3
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 vim.opt.guicursor = ""

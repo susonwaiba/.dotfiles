@@ -1,3 +1,5 @@
+local ollama_endpoint = "http://127.0.0.1:11434/v1"
+
 return {
 	{
 		"yetone/avante.nvim",
@@ -5,9 +7,85 @@ return {
 		lazy = false,
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
+			vendors = {
+				ollama = {
+					__inherited_from = "openai",
+					api_key_name = "",
+					endpoint = ollama_endpoint,
+					-- proxy = nil, -- [protocol://]host[:port] Use this proxy
+					-- model = "llama3.1:latest",
+					model = "deepseek-r1:8b",
+					-- model = "llama3.1:latest",
+					-- model = "opencoder:latest",
+					disable_tools = true, -- disable tools!
+					stream = true, -- Optional
+					-- temperature = 0.8,
+					-- max_tokens = 4096,
+					-- timeout = 60000, -- Timeout in milliseconds
+					allow_insecure = true, -- Allow insecure server connections
+				},
+				ollama_deepseek_r1__1_5b = {
+					__inherited_from = "openai",
+					api_key_name = "",
+					endpoint = ollama_endpoint,
+					model = "deepseek-r1:1.5b",
+					disable_tools = true, -- disable tools!
+					stream = true, -- Optional
+					allow_insecure = true, -- Allow insecure server connections
+				},
+				ollama_deepseek_r1_8b = {
+					__inherited_from = "openai",
+					api_key_name = "",
+					endpoint = ollama_endpoint,
+					model = "deepseek-r1:8b",
+					disable_tools = true, -- disable tools!
+					stream = true, -- Optional
+					allow_insecure = true, -- Allow insecure server connections
+				},
+				ollama_llama3_1_8b = {
+					__inherited_from = "openai",
+					api_key_name = "",
+					endpoint = ollama_endpoint,
+					model = "llama3.1:latest",
+					-- model = "deepseek-r1:8b",
+					-- model = "opencoder:latest",
+					-- disable_tools = true, -- disable tools!
+					stream = true, -- Optional
+					-- temperature = 0.8,
+					-- max_tokens = 4096,
+					-- timeout = 60000, -- Timeout in milliseconds
+					allow_insecure = true, -- Allow insecure server connections
+				},
+				ollama_llama3_2__3_2b = {
+					__inherited_from = "openai",
+					api_key_name = "",
+					endpoint = ollama_endpoint,
+					model = "llama3.2:latest",
+					-- disable_tools = true, -- disable tools!
+					stream = true, -- Optional
+					-- temperature = 0.8,
+					-- max_tokens = 4096,
+					-- timeout = 60000, -- Timeout in milliseconds
+					allow_insecure = true, -- Allow insecure server connections
+				},
+				ollama_autocomplete = {
+					__inherited_from = "openai",
+					api_key_name = "",
+					endpoint = ollama_endpoint,
+					model = "llama3.1:latest",
+					-- model = "deepseek-r1:8b",
+					-- model = "opencoder:latest",
+					-- disable_tools = true, -- disable tools!
+					stream = false, -- Optional
+					temperature = 0.8,
+					max_tokens = 4096,
+					timeout = 5000, -- Timeout in milliseconds
+					allow_insecure = true, -- Allow insecure server connections
+				},
+			},
 			---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-			provider = "copilot",
-			auto_suggestions_provider = "copilot",
+			provider = "ollama_deepseek_r1_8b",
+			auto_suggestions_provider = "ollama_autocomplete",
 			behaviour = {
 				auto_suggestions = true, -- Experimental stage
 				auto_set_highlight_group = true,
@@ -26,6 +104,68 @@ return {
 				},
 			},
 			hints = { enabled = true },
+			history = {
+				max_tokens = 4096,
+				storage_path = vim.fn.stdpath("state") .. "/avante",
+				paste = {
+					extension = "png",
+					filename = "pasted-%Y-%m-%d-%H-%M-%S",
+				},
+			},
+			--- @class AvanteFileSelectorConfig
+			file_selector = {
+				--- @alias FileSelectorProvider "native" | "fzf" | "mini.pick" | "snacks" | "telescope" | string
+				provider = "telescope",
+				-- Options override for custom providers
+				provider_opts = {},
+			},
+			windows = {
+				---@type "right" | "left" | "top" | "bottom"
+				position = "right", -- the position of the sidebar
+				wrap = true, -- similar to vim.o.wrap
+				width = 30, -- default % based on available width
+				sidebar_header = {
+					enabled = true, -- true, false to enable/disable the header
+					align = "center", -- left, center, right for title
+					rounded = true,
+				},
+				input = {
+					prefix = "> ",
+					height = 8, -- Height of the input window in vertical layout
+				},
+				edit = {
+					border = "rounded",
+					start_insert = false, -- Start insert mode when opening the edit window
+				},
+				ask = {
+					floating = false, -- Open the 'AvanteAsk' prompt in a floating window
+					start_insert = true, -- Start insert mode when opening the ask window
+					border = "rounded",
+					---@type "ours" | "theirs"
+					focus_on_apply = "ours", -- which diff to focus after applying
+				},
+			},
+			--- @class AvanteConflictUserConfig
+			diff = {
+				autojump = true,
+				---@type string | fun(): any
+				list_opener = "copen",
+				--- Override the 'timeoutlen' setting while hovering over a diff (see :help timeoutlen).
+				--- Helps to avoid entering operator-pending mode with diff mappings starting with `c`.
+				--- Disable by setting to -1.
+				override_timeoutlen = 500,
+			},
+			highlights = {
+				---@type AvanteConflictHighlights
+				diff = {
+					current = "DiffText",
+					incoming = "DiffAdd",
+				},
+			},
+			suggestion = {
+				debounce = 600,
+				throttle = 600,
+			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
@@ -36,15 +176,16 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"echasnovski/mini.icons",
-			{
-				"zbirenbaum/copilot.lua",
-				cmd = "Copilot",
-				event = "InsertEnter",
-				config = function()
-					require("copilot").setup({})
-					vim.cmd(":Copilot auth")
-				end,
-			}, -- for providers='copilot'
+			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+			-- {
+			-- 	"zbirenbaum/copilot.lua",
+			-- 	cmd = "Copilot",
+			-- 	event = "InsertEnter",
+			-- 	config = function()
+			-- 		require("copilot").setup({})
+			-- 		vim.cmd(":Copilot auth")
+			-- 	end,
+			-- }, -- for providers='copilot'
 			{
 				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
