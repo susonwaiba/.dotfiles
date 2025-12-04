@@ -59,14 +59,27 @@ return {
 
 			vim.cmd([[highlight MiniStatuslineModeNormal guibg=#d78700 guifg=#262626]])
 			local statusline = require("mini.statusline")
-			statusline.setup()
-			-- You can configure sections in the statusline by overriding their
-			-- default behavior. For example, here we set the section for
-			-- cursor location to LINE:COLUMN
-			---@diagnostic disable-next-line: duplicate-set-field
-			statusline.section_location = function()
-				return "%2l:%-2v"
-			end
+			statusline.setup({
+				content = {
+					active = function()
+						local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+						local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+						local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 60 })
+						local location = "%2l:%-2v"
+						local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+						return MiniStatusline.combine_groups({
+							{ hl = mode_hl, strings = { mode } },
+							"%<", -- Mark general truncate point
+							{ hl = "MiniStatuslineFilename", strings = { filename } },
+							"%=", -- End left alignment
+							{ hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+							{ hl = mode_hl, strings = { search, location } },
+						})
+					end,
+					inactive = nil,
+				},
+			})
 
 			require("mini.git").setup()
 

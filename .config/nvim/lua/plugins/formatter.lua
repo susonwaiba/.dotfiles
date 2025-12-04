@@ -33,7 +33,7 @@ return {
 				html = { "prettierd", "eslint_d" },
 				htmldjango = { "prettierd", "eslint_d" },
 				php = { "php_cs_fixer" },
-				["*"] = { "codespell" },
+				-- ["*"] = { "codespell" },
 			},
 			formatters = {
 				php_cs_fixer = {
