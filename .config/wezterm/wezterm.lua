@@ -1,4 +1,4 @@
-local wezterm = require 'wezterm'
+local wezterm = require("wezterm")
 local mux = wezterm.mux
 local act = wezterm.action
 
@@ -7,7 +7,7 @@ local config = {}
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
 if wezterm.config_builder then
-    config = wezterm.config_builder()
+	config = wezterm.config_builder()
 end
 
 config.enable_wayland = true
@@ -19,11 +19,11 @@ config.enable_wayland = true
 -- config.default_cwd = os.getenv("HOME"),
 
 -- config.font = wezterm.font 'CaskaydiaCove Nerd Font Mono',
-config.font = wezterm.font 'CaskaydiaCove NF' -- For MacOS
-if wezterm.target_triple == 'x86_64-apple-darwin' then
-    config.font_size = 16.0
+config.font = wezterm.font("CaskaydiaCove NF") -- For MacOS
+if wezterm.target_triple == "x86_64-apple-darwin" then
+	config.font_size = 16.0
 else
-    config.font_size = 14.0
+	config.font_size = 14.0
 end
 config.adjust_window_size_when_changing_font_size = false
 config.default_cursor_style = "SteadyBlock"
@@ -33,61 +33,61 @@ config.default_cursor_style = "SteadyBlock"
 -- config.color_scheme = 'Github Dark' -- light
 -- config.color_scheme = 'Gruvbox dark, hard (base16)'
 -- config.color_scheme = 'Tokyo Night'
-config.color_scheme = 'Gruber (base16)'
+config.color_scheme = "Gruber (base16)"
 config.colors = {
-    cursor_bg = '#fadd38',
-    -- tab_bar = {
-    --     background = '#eee',
-    --     active_tab = {
-    --         bg_color = '#fff',
-    --         fg_color = '#666',
-    --     },
-    --     inactive_tab = {
-    --         bg_color = '#ddd',
-    --         fg_color = '#777',
-    --     },
-    --     inactive_tab_hover = {
-    --         bg_color = '#ccc',
-    --         fg_color = '#666',
-    --         italic = false,
-    --     },
-    --     new_tab = {
-    --         bg_color = '#bbb',
-    --         fg_color = '#777',
-    --     },
-    --     new_tab_hover = {
-    --         bg_color = '#999',
-    --         fg_color = '#666',
-    --         italic = false,
-    --     },
-    -- },
+	cursor_bg = "#fadd38",
+	-- tab_bar = {
+	--     background = '#eee',
+	--     active_tab = {
+	--         bg_color = '#fff',
+	--         fg_color = '#666',
+	--     },
+	--     inactive_tab = {
+	--         bg_color = '#ddd',
+	--         fg_color = '#777',
+	--     },
+	--     inactive_tab_hover = {
+	--         bg_color = '#ccc',
+	--         fg_color = '#666',
+	--         italic = false,
+	--     },
+	--     new_tab = {
+	--         bg_color = '#bbb',
+	--         fg_color = '#777',
+	--     },
+	--     new_tab_hover = {
+	--         bg_color = '#999',
+	--         fg_color = '#666',
+	--         italic = false,
+	--     },
+	-- },
 }
 
 config.hide_mouse_cursor_when_typing = false
 config.mouse_bindings = {
-    -- Right click sends "woot" to the terminal
-    -- {
-    --     event = { Down = { streak = 1, button = 'Right' } },
-    --     mods = 'NONE',
-    --     action = act.SendString 'woot',
-    -- },
+	-- Right click sends "woot" to the terminal
+	-- {
+	--     event = { Down = { streak = 1, button = 'Right' } },
+	--     mods = 'NONE',
+	--     action = act.SendString 'woot',
+	-- },
 
-    -- Change the default click behavior so that it only selects
-    -- text and doesn't open hyperlinks
-    {
-        event = { Up = { streak = 1, button = 'Left' } },
-        mods = 'NONE',
-        action = act.CompleteSelection 'ClipboardAndPrimarySelection',
-    },
+	-- Change the default click behavior so that it only selects
+	-- text and doesn't open hyperlinks
+	{
+		event = { Up = { streak = 1, button = "Left" } },
+		mods = "NONE",
+		action = act.CompleteSelection("ClipboardAndPrimarySelection"),
+	},
 
-    -- and make CTRL-Click open hyperlinks
-    {
-        event = { Up = { streak = 1, button = 'Left' } },
-        mods = 'CTRL',
-        action = act.OpenLinkAtMouseCursor,
-    },
-    -- NOTE that binding only the 'Up' event can give unexpected behaviors.
-    -- Read more below on the gotcha of binding an 'Up' event only.
+	-- and make CTRL-Click open hyperlinks
+	{
+		event = { Up = { streak = 1, button = "Left" } },
+		mods = "CTRL",
+		action = act.OpenLinkAtMouseCursor,
+	},
+	-- NOTE that binding only the 'Up' event can give unexpected behaviors.
+	-- Read more below on the gotcha of binding an 'Up' event only.
 }
 
 -- config.enable_tab_bar = false
@@ -101,10 +101,10 @@ config.hide_tab_bar_if_only_one_tab = true
 --     hue = 0.4,
 --     saturation = 0.2,
 -- }
-config.window_decorations = "RESIZE"
+-- config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.95
 -- config.text_background_opacity = 0.95
-config.macos_window_background_blur = 12   -- For MacOS
+config.macos_window_background_blur = 12 -- For MacOS
 config.native_macos_fullscreen_mode = true -- For MacOS
 
 config.audible_bell = "Disabled"
@@ -112,22 +112,22 @@ config.audible_bell = "Disabled"
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
 config.keys = {
-    {
-        key = 'm',
-        modes = "CMD",
-        action = wezterm.action.DisableDefaultAssignment,
-    }
+	{
+		key = "m",
+		modes = "CMD",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
 }
 
-wezterm.on("gui-startup", function()
-    local tab, pane, window = mux.spawn_window {}
-    if wezterm.target_triple == 'x86_64-apple-darwin' then
-        window:gui_window():maximize()
-        -- window:gui_window():toggle_fullscreen()
-    else
-        window:gui_window():maximize()
-        -- window:gui_window():restore()
-    end
-end)
+-- wezterm.on("gui-startup", function()
+-- 	local tab, pane, window = mux.spawn_window({})
+-- 	if wezterm.target_triple == "x86_64-apple-darwin" then
+-- 		window:gui_window():maximize()
+-- 		-- window:gui_window():toggle_fullscreen()
+-- 	else
+-- 		window:gui_window():maximize()
+-- 		-- window:gui_window():restore()
+-- 	end
+-- end)
 
 return config
