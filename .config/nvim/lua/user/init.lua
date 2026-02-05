@@ -92,5 +92,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+-- copy
+vim.keymap.set("n", "<leader>yr", ":let @+ = expand('%')<CR>", { desc = "Copy relative file path" })
+vim.keymap.set("n", "<leader>yp", ":let @+ = expand('%:p')<CR>", { desc = "Copy absolute file path" })
+vim.keymap.set("n", "<leader>yn", ":let @+ = expand('%:t')<CR>", { desc = "Copy file name" })
+
 -- run
 vim.keymap.set("n", "<Space>rj", ":! just<CR>", { desc = "Run just" })
