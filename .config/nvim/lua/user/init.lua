@@ -92,10 +92,45 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- copy
-vim.keymap.set("n", "<leader>yr", ":let @+ = expand('%')<CR>", { desc = "Copy relative file path" })
-vim.keymap.set("n", "<leader>yp", ":let @+ = expand('%:p')<CR>", { desc = "Copy absolute file path" })
-vim.keymap.set("n", "<leader>yn", ":let @+ = expand('%:t')<CR>", { desc = "Copy file name" })
-
 -- run
 vim.keymap.set("n", "<Space>rj", ":! just<CR>", { desc = "Run just" })
+
+-- Helper function to get the path in both normal buffers and Oil buffers
+local function get_path(mod)
+  if vim.bo.filetype == "oil" then
+    local entry = require("oil").get_cursor_entry()
+    local dir = require("oil").get_current_dir()
+    if not entry or not dir then return nil end
+    local full_path = dir .. entry.name
+    return vim.fn.fnamemodify(full_path, mod)
+  end
+  return vim.fn.expand("%" .. mod)
+end
+
+-- Copy Relative Path
+vim.keymap.set("n", "<leader>yr", function()
+  local path = get_path(":.")
+  if path then
+    vim.fn.setreg("+", path)
+    vim.notify("Copied relative path: " .. path)
+  end
+end, { desc = "Copy relative file path" })
+
+-- Copy Absolute Path
+vim.keymap.set("n", "<leader>yp", function()
+  local path = get_path(":p")
+  if path then
+    vim.fn.setreg("+", path)
+    vim.notify("Copied absolute path: " .. path)
+  end
+end, { desc = "Copy absolute file path" })
+
+-- Copy File Name
+vim.keymap.set("n", "<leader>yn", function()
+  local path = get_path(":t")
+  if path then
+    vim.fn.setreg("+", path)
+    vim.notify("Copied file name: " .. path)
+  end
+end, { desc = "Copy file name" })
+
