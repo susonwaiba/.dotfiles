@@ -28,6 +28,8 @@ end
 config.adjust_window_size_when_changing_font_size = false
 config.default_cursor_style = "SteadyBlock"
 
+config.scrollback_lines = 10000
+
 -- config.color_scheme = 'Github (base16)' -- light
 -- config.color_scheme = 'Github' -- light
 -- config.color_scheme = 'Github Dark' -- light
